@@ -6,6 +6,9 @@
 .container {
     font-family: montserrat;
     padding-top: 25px;
+    margin-bottom: 80px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .container > h1 {
@@ -13,8 +16,8 @@
 }
 
 .ball{
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     background-color: silver;
     border-radius: 50%;
     display: block;
@@ -27,4 +30,10 @@
 
 .container > div > p{
     text-align: center;
+}
+
+.credits {
+    text-align: center;
+    color: silver;
+    font-family: montserrat;
 }

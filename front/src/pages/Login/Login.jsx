@@ -18,6 +18,12 @@ const Login = () => {
         axios.get(`${import.meta.env.VITE_API_URL}/users/get/${email}`).then(res => {
             console.log(res)
             const user = res.data.data
+
+            if(!user) {
+                toast("Email ou mot de passe incorrect", {type: "error"})
+                return
+            }
+
             if(bcrypt.compareSync(password, user.password)){
                 localStorage.setItem("session", JSON.stringify(user))
                 window.location.href = "/etablissements"

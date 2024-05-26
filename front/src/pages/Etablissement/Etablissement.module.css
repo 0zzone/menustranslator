@@ -2,11 +2,18 @@
     font-family: montserrat;
     padding-top: 50px;
     padding-left: 100px;
+    margin-bottom: 200px;
 }
 
 .container > h1 {
     margin: 0;
     font-size: 50px;
+}
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 100px;
 }
 
 .tools {
@@ -16,7 +23,6 @@
 }
 
 .tools > p {
-    background-color: #628f50;
     color: white;
     padding: 7px;
     border-radius: 5px;
@@ -32,17 +38,18 @@ input:nth-child(2){
     margin-left: 10px;
 }
 
-.line > form{
+.line > form, .line2 > form {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin:0;
 }
 
-.line > h2 {
+.line > h2, .line2 > h2 {
     margin: 0
 }
 
-.line > form > p {
+.line > form > p, .line2 > form > p {
     margin-left: 20px;
     cursor: pointer;
 }
@@ -54,6 +61,7 @@ input:nth-child(2){
     display: block;
     font-style: italic;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .aucun:hover{
@@ -83,6 +91,17 @@ input:nth-child(2){
     margin-top: 50px;
 }
 
+.line2{
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid #f1f1f1;
+    margin-top: 15px;
+    padding: 10px;
+    align-items: center;
+    width: 90%;
+    border-radius: 5px;
+}
+
 .line{
     display: flex;
     justify-content: space-between;
@@ -90,11 +109,11 @@ input:nth-child(2){
     margin-top: 15px;
     padding: 10px;
     align-items: center;
-    width: 70%;
+    width: 90%;
     border-radius: 5px;
 }
 
-.line > p {
+.line > p, .line2 > p {
     margin: 0
 }
 

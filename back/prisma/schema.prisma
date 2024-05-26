@@ -29,6 +29,7 @@ model Etablissement {
   createdAt DateTime @default(now())
   name String
   owner_id Int
+  theme String @default("rgba(98, 143, 80)")
 
   owner User @relation(fields: [owner_id], references: [id_user])
   sections Section[]

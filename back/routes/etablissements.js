@@ -46,5 +46,25 @@ router.get("/:id", async (req, res) => {
 })
 
 
+router.post("/update/:id_etablissement", async (req, res) => {
+    const {id_etablissement} = req.params
+    const {theme=null} = req.body
+    try{
+
+        const etablissement = await prisma.etablissement.update({
+            where: {
+                id_etablissement: parseInt(id_etablissement)
+            },
+            data: {
+                theme
+            }
+        })
+
+        return res.status(200).json({data: etablissement})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
 
 module.exports = router;

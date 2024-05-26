@@ -34,6 +34,7 @@ router.post('/create', async (req, res, next) => {
 
 router.get('/get/:email', async (req, res) => {
     const {email} = req.params
+    console.log(email)
     try{
         const user = await prisma.user.findUnique({
             where: {
@@ -43,6 +44,7 @@ router.get('/get/:email', async (req, res) => {
                 etablissements: true
             }
         })
+
 
         return res.status(200).json({data: user})
 

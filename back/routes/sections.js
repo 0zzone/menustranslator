@@ -36,9 +36,11 @@ router.post("/delete/:id_section", async (req, res) => {
             }
         })
 
+
         if(section.lines.length > 0){
             return res.status(400).json({error: "La section ne peut pas être supprimée, il reste des lignes"})
         }
+
 
         const final_section = await prisma.section.delete({
             where: {

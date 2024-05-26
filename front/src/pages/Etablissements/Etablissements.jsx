@@ -24,7 +24,7 @@ const Etablissements = () => {
         (async () => {
             const user = JSON.parse(localStorage.getItem("session"))
             setLoading(true)
-            const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${user.email}`)
+            const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${user.data.email}`)
             setUser(userDB.data.data)
             setLoading(false)
         })()
@@ -42,6 +42,7 @@ const Etablissements = () => {
             toast(e.data.response.error, {type: "error"})
         })
     }
+
 
     return(
         <div className={styles.container}>

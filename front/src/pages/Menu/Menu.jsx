@@ -35,6 +35,9 @@ const Menu = () => {
                     </div>
                 ))}
             </div> : <p>Loading</p>}
+
+            <p className={styles.credits}>Made by Mattéo Bonnet</p>
+
         </>
     )
 }
