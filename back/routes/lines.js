@@ -23,4 +23,41 @@ router.post("/create", async (req, res) => {
     }
 })
 
+router.post('/delete/:id_line', async (req, res) => {
+    const {id_line} = req.params
+    try{
+        const line = await prisma.line.delete({
+            where: {
+                id_line: parseInt(id_line)
+            }
+        })
+
+        return res.status(200).json({data: line})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
+router.post("/update/:id_line", async (req, res) => {
+    const {id_line} = req.params
+    const {name=null, price=null} = req.body
+    try{
+        const line = await prisma.line.update({
+            where: {
+                id_line: parseInt(id_line)
+            },
+            data: {
+                name: name,
+                price: parseFloat(price)
+            }
+        })
+
+        return res.status(200).json({data: line})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
 module.exports = router;

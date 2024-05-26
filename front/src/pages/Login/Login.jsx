@@ -16,6 +16,7 @@ const Login = () => {
     const onSubmit = (data) => {
         const {email, password} = data
         axios.get(`${import.meta.env.VITE_API_URL}/users/get/${email}`).then(res => {
+            console.log(res)
             const user = res.data.data
             if(bcrypt.compareSync(password, user.password)){
                 localStorage.setItem("session", JSON.stringify(user))

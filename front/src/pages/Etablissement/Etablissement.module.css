@@ -38,7 +38,11 @@ input:nth-child(2){
     align-items: center;
 }
 
-line > form > p {
+.line > h2 {
+    margin: 0
+}
+
+.line > form > p {
     margin-left: 20px;
     cursor: pointer;
 }
@@ -116,4 +120,16 @@ line > form > p {
     display: flex;
     justify-content: space-between;
     column-gap: 15px;
+}
+
+.addLineStyle{
+    margin-left: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addLineStyle > p {
+    margin-left: 25px;
+    cursor: pointer;
 }

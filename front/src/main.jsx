@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Etablissements from './pages/Etablissements/Etablissements';
 import Etablissement from './pages/Etablissement/Etablissement';
+import Menu from './pages/Menu/Menu';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/etablissement/:id",
     element: <Etablissement />
+  },
+  {
+    path:"/menu/:id",
+    element: <Menu />
   }
 ]);
 

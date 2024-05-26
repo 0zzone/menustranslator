@@ -1,0 +1,30 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../../fonts/Montserrat-Regular.ttf");
+}
+
+.container {
+    font-family: montserrat;
+    padding-top: 25px;
+}
+
+.container > h1 {
+    text-align: center;
+}
+
+.ball{
+    width: 10px;
+    height: 10px;
+    background-color: silver;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+}
+
+.container > div > h2 {
+    text-align: center;
+}
+
+.container > div > p{
+    text-align: center;
+}
