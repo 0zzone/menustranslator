@@ -1,0 +1,119 @@
+.container {
+    font-family: montserrat;
+    padding-top: 50px;
+    padding-left: 100px;
+}
+
+.container > h1 {
+    margin: 0;
+    font-size: 50px;
+}
+
+.tools {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 20px;
+}
+
+.tools > p {
+    background-color: #628f50;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tools > p:hover {
+    opacity: .9;
+}
+
+input:nth-child(2){
+    width: 100px;
+    margin-left: 10px;
+}
+
+.line > form{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+line > form > p {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.aucun{
+    color: grey;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: block;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.aucun:hover{
+    text-decoration: underline;
+}
+
+.liste {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+.sections {
+    margin-top: 50px;
+}
+
+.addLine {
+    margin:0;
+    color: #628f50;
+    cursor: pointer;
+}
+
+.sectionName{
+    margin: 0;
+    margin-top: 50px;
+}
+
+.line{
+    display: flex;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    margin-top: 15px;
+    padding: 10px;
+    align-items: center;
+    width: 70%;
+    border-radius: 5px;
+}
+
+.line > p {
+    margin: 0
+}
+
+.edit{
+    background-color: rgb(221, 175, 89);
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0;
+    color: white;
+}
+
+.delete {
+    background-color: rgb(214, 106, 106);
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0;
+    color: white;
+}
+
+.right{
+    display: flex;
+    justify-content: space-between;
+    column-gap: 15px;
+}

@@ -1,0 +1,76 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../../fonts/Montserrat-Regular.ttf");
+}
+
+.container {
+    font-family: montserrat;
+    padding-top: 50px;
+    padding-left: 100px;
+}
+
+.container > h1 {
+    margin: 0;
+    font-size: 50px;
+}
+
+form{
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+input{
+    width: 400px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+}
+
+input[type="submit"] {
+    width: 100px;
+    margin-left: 20px;
+    border: none;
+    background-color: #628f50;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover{
+    opacity: .9;
+}
+
+h2 {
+    margin-top: 50px;
+}
+
+.liste {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+.card{
+    border: 2px solid black;
+    width: 250px;
+    padding: 20px;
+    border-radius: 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.card:hover{
+    background-color: #fafafa;
+}
+
+.card > h2 {
+    margin: 0;
+}
+
+.aucun{
+    color: grey;
+    margin-top: 0px;
+    font-style: italic;
+}

@@ -1,0 +1,66 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../../fonts/Montserrat-Regular.ttf");
+}
+
+.container {
+    width: 100dvw;
+    height: 100dvh;
+    background: rgb(174,235,180);
+    background: linear-gradient(267deg, rgba(174,235,180,1) 0%, rgba(126,166,89,1) 100%);
+    font-family: montserrat;
+}
+
+.container > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+.container > div > h1 {
+    margin: 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.container > div > form > input {
+    width: 80%;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    outline: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.container > div > form > input[type="submit"] {
+    width: 80%;
+    background-color: #628f50;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.container > div > form > input[type="submit"]:hover {
+    opacity: .9;
+}
+
+.container > div > a {
+    display: block;
+    text-align: center;
+    color: black;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.container > div > a:hover {
+    text-decoration: underline;
+}

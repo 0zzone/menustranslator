@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-1.1.x", "darwin-arm64", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email String @unique
+  firstName String
+  lastName String
+  password String
+  subscription Int // 0 - Nothing, 1 - First one, 2 - Second one
+
+  etablissements Etablissement[]
+
+}
+
+model Etablissement {
+  id_etablissement Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name String
+  owner_id Int
+
+  owner User @relation(fields: [owner_id], references: [id_user])
+  sections Section[]
+}
+
+model Section {
+  id_section Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name String
+  price Float?
+  id_etablissement Int
+
+  etablissement Etablissement @relation(fields: [id_etablissement], references: [id_etablissement])
+  lines Line[]
+}
+
+model Line {
+  id_line Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name String
+  price Float?
+  id_section Int
+
+  section Section @relation(fields: [id_section], references: [id_section])
+
+}
