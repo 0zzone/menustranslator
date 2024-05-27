@@ -65,7 +65,7 @@ router.post("/update/:id_section", async (req, res) => {
             },
             data: {
                 name,
-                price
+                price: parseFloat(price)
             }
         })
     

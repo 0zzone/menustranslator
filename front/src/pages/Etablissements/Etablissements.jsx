@@ -8,7 +8,8 @@ import Skeleton from '@mui/material/Skeleton';
 
 const Etablissements = () => {
 
-    if(!localStorage.getItem("session")) window.location.href = "/"
+    if(!localStorage.getItem("session")) window.location.href = "/login"
+
     const [user, setUser] = useState(null)
     const [change, setChange] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -35,6 +36,7 @@ const Etablissements = () => {
             name: data.name,
             owner_id: user.id_user
         }
+
         axios.post(`${import.meta.env.VITE_API_URL}/etablissements/create`, obj).then(res => {
             toast("Restaurant ajouté !", {type: "success"})
             setChange(!change)

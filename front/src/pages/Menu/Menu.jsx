@@ -2,6 +2,8 @@ import styles from "./Menu.module.css"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Menu = () => {
 
@@ -22,10 +24,10 @@ const Menu = () => {
     return(
         <>
             {!loading ? <div className={styles.container}>
-                <h1>{data.name}</h1>
+                {data.logo ? <img src={data.logo} alt="Logo" /> : <h1>{data.name}</h1>}
                 {data.sections.map((section, index) => (
                     <div key={index}>
-                        <h2 style={{color: "#628f50"}}>{section.name} {section.price && `- ${section.price}€`}</h2>
+                        <h2 style={{color: data ? data.theme : "#628f50"}}>{section.name} {section.price && `- ${section.price}€`}</h2>
                         {section.lines.map((line, index2) => (
                             <> 
                                 {index2 > 0 && <div className={styles.ball}></div>}
@@ -34,9 +36,14 @@ const Menu = () => {
                         ))}
                     </div>
                 ))}
-            </div> : <p>Loading</p>}
+                <p className={styles.credits}>Made by Mattéo Bonnet</p>
+            </div> : <div className={styles.loading}>
+                <p>Chargement ...</p>
+                <Box sx={{ display: 'flex', justifyContent: "center", width: "100%", marginTop:"50px"}}>
+                    <CircularProgress color="grey" />
+                </Box>
+            </div>}
 
-            <p className={styles.credits}>Made by Mattéo Bonnet</p>
 
         </>
     )

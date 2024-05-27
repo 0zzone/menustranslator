@@ -30,6 +30,7 @@ model Etablissement {
   name String
   owner_id Int
   theme String @default("rgba(98, 143, 80)")
+  logo String?
 
   owner User @relation(fields: [owner_id], references: [id_user])
   sections Section[]

@@ -7,6 +7,8 @@ var salt = bcrypt.genSaltSync(10);
 
 const Register = () => {
 
+    if(localStorage.getItem("session")) window.location.href = "/etablissements"
+
     const {
         register,
         handleSubmit,

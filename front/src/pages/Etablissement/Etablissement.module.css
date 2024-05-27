@@ -16,10 +16,17 @@
     margin-right: 100px;
 }
 
+
+.top > img {
+    width: 200px;
+    height: auto;
+}
+
 .tools {
     display: flex;
     justify-content: flex-start;
     column-gap: 20px;
+    margin-top: 50px;
 }
 
 .tools > p {
@@ -77,18 +84,17 @@ input:nth-child(2){
 }
 
 .sections {
-    margin-top: 50px;
+    margin-top: 0px;
+    padding: 0;
 }
 
 .addLine {
-    margin:0;
-    color: #628f50;
     cursor: pointer;
+    margin-left: 30px;
 }
 
 .sectionName{
     margin: 0;
-    margin-top: 50px;
 }
 
 .line2{
@@ -150,5 +156,58 @@ input:nth-child(2){
 
 .addLineStyle > p {
     margin-left: 25px;
+    cursor: pointer;
+}
+
+.popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 999;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.popup > h2 {
+    margin: 0;
+    text-align: center;
+}
+
+.colorPicker{
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popup > form > input {
+    margin-top: 20px;
+}
+
+.popup > form > input[type="submit"] {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.shadow {
+    background-color: #333;
+    opacity: .3;
+    z-index: 998;
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 10px;
     cursor: pointer;
 }

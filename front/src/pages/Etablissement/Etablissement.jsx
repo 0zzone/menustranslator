@@ -6,6 +6,7 @@ import Skeleton from '@mui/material/Skeleton';
 import { useForm } from "react-hook-form"
 import {toast} from "react-toastify"
 import { MuiColorInput } from 'mui-color-input'
+import { MdOutlineSettings } from "react-icons/md";
 
 const Etablissement = () => {
 
@@ -17,6 +18,9 @@ const Etablissement = () => {
     const [editSection, setEditSection] = useState(null)
     const [change, setChange] = useState(false)
     const [color, setColor] = useState('#ffffff')
+    const [settings, setSettings] = useState(false)
+
+    if(!localStorage.getItem("session")) window.location.href = "/login"
 
     const {
         register,
@@ -81,6 +85,7 @@ const Etablissement = () => {
         axios.post(`${import.meta.env.VITE_API_URL}/lines/update/${id_line}`, data).then(res => {
             toast("Ligne modifiée !", {type: "success"})
             setEdit(null)
+            reset({})
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
         })
@@ -99,6 +104,7 @@ const Etablissement = () => {
         axios.post(`${import.meta.env.VITE_API_URL}/sections/update/${id_section}`, data).then(res => {
             toast("Section modifiée !", {type: "success"})
             setEditSection(null)
+            reset({})
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
         })
@@ -122,16 +128,40 @@ const Etablissement = () => {
         })
     }
 
+    const updateParams = (data) => {
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {logo: data.logo}).then(res => {
+            toast("Logo mis à jour !", {type: "success"})
+            setChange(!change)
+            setSettings(false)
+            reset({})
+        }).catch(e => {
+            toast(e.response.data.error, {type: "error"})
+        })
+    }
+
+
     return(
         <div className={styles.container}>
 
             <a href="/etablissements" className={styles.aucun}>&#x2190; Retour</a>
 
+
+            {settings && <div className={styles.shadow} onClick={() => setSettings(false)}></div>}
+            {settings && <div className={styles.popup}>
+                <h2>Paramètres</h2>
+                <MuiColorInput value={color} onChange={upateTheme} className={styles.colorPicker} />
+                <form onSubmit={handleSubmit(updateParams)}>
+                    <input type="text" value={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
+                    <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
+                </form>
+            </div>}
+
             {data ? <div className={styles.top}>
-                <h1>{data.name}</h1> 
-                <MuiColorInput value={color} onChange={upateTheme} />
+                {data.logo ? <img src={data.logo} alt="Logo" /> : <h1>{data.name}</h1>}
+                <MdOutlineSettings className={styles.icon} onClick={() => setSettings(true)} />
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
+            
             <div className={styles.tools}>
                 <p style={{backgroundColor: data ? data.theme : color}} onClick={() => setAddSection(true)}>Ajouter une section</p>
             </div>
@@ -139,19 +169,19 @@ const Etablissement = () => {
             {isAddSection && <form className={styles.addLineStyle} style={{marginLeft: "0px"}} onSubmit={handleSubmit(addSection)}>
                 <input type="text" {...register('name')} placeholder="Nom de la section ..." />
                 <input type="text" {...register("price")} placeholder="Prix ..." />
-                <input type="submit" value="Ajouter" />
+                <input style={{backgroundColor: data ? data.theme : color}} type="submit" value="Ajouter" />
                 <p onClick={() => {setAddSection(false); reset({})}}>Annuler</p>
             </form>}
 
             {data ? data.sections.length > 0 ? <div className={styles.sections}>
                 {data.sections.map((section, index) => (
-                    <div key={index} style={{marginTop: "50px"}}>
+                    <div key={index} style={{margin: "0px"}}>
 
                         <div className={styles.line} key={index}>
                             {section.id_section === editSection ? <form onSubmit={handleSubmit((data) => editSectionFunc(data, section.id_section))}>
                                 <input type="text" defaultValue={section.name} {...register("name")} placeholder="Nom ..." />
                                 <input type="text" defaultValue={section.price} {...register("price")} placeholder="Prix ..." />
-                                <input type="submit" value="Enregistrer" />
+                                <input style={{backgroundColor: data ? data.theme : color}} type="submit" value="Enregistrer" />
                                 <p onClick={() => {setEditSection(null);reset({})}}>Annuler</p>
                             </form> : <h2>{section.name} {section.price && `- ${section.price}€`}</h2>}
                             <div className={styles.right}>
@@ -161,13 +191,13 @@ const Etablissement = () => {
                         </div>
 
 
-                        <p className={styles.addLine} onClick={() => setAddLine(section.id_section)}>Ajouter une ligne</p>
+                        <p style={{color: data ? data.theme : color}} className={styles.addLine} onClick={() => setAddLine(section.id_section)}>Ajouter une ligne</p>
                         {section.lines.length > 0 ? section.lines.map((line, index) => (
                             <div className={styles.line2} style={{marginLeft: "25px"}} key={index}>
                                 {line.id_line === edit ? <form onSubmit={handleSubmit((data) => editLine(data, line.id_line))}>
                                     <input type="text" defaultValue={line.name} {...register("name")} />
                                     <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
-                                    <input type="submit" value="Enregistrer" />
+                                    <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
                                     <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
                                 </form> : <p>{line.name} {line.price && `- ${line.price}€`}</p>}
                                 <div className={styles.right}>
@@ -177,9 +207,9 @@ const Etablissement = () => {
                             </div>
                         )) : null}
                         {section.id_section === addLine && <form className={styles.addLineStyle} onSubmit={handleSubmit(addLineFunction)}>
-                            <input type="text" {...register('name')} placeholder="Nom de la section ..." />
+                            <input type="text" {...register('name')} placeholder="Nom de la ligne ..." />
                             <input type="text" {...register("price")} placeholder="Prix ..." />
-                            <input type="submit" value="Ajouter" />
+                            <input type="submit" value="Ajouter" style={{backgroundColor: data ? data.theme : color}} />
                             <p onClick={() => {setAddLine(null); reset({})}}>Annuler</p>
                         </form>}
                     </div>

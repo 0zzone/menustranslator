@@ -48,16 +48,15 @@ router.get("/:id", async (req, res) => {
 
 router.post("/update/:id_etablissement", async (req, res) => {
     const {id_etablissement} = req.params
-    const {theme=null} = req.body
+    // const {theme=null, logo=null} = req.body
+    
     try{
 
         const etablissement = await prisma.etablissement.update({
             where: {
                 id_etablissement: parseInt(id_etablissement)
             },
-            data: {
-                theme
-            }
+            data: req.body
         })
 
         return res.status(200).json({data: etablissement})
