@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Etablissements from './pages/Etablissements/Etablissements';
 import Etablissement from './pages/Etablissement/Etablissement';
 import Menu from './pages/Menu/Menu';
+import Success from './pages/Success/Success';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path:"/menu/:id",
     element: <Menu />
+  },
+  {
+    path: "/success",
+    element: <Success />
   }
 ]);
 

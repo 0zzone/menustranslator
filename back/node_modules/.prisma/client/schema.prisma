@@ -18,7 +18,7 @@ model User {
   firstName String
   lastName String
   password String
-  subscription Int // 0 - Nothing, 1 - First one, 2 - Second one
+  subscription String
 
   etablissements Etablissement[]
 

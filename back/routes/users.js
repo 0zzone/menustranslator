@@ -5,8 +5,7 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
 
 router.post('/create', async (req, res, next) => {
-  const {email, firstName, lastName, password, subscription=0} = req.body
-
+    const {email, firstName, lastName, password, subscription} = req.body
     try {
         const user_already = await prisma.user.findFirst({
             where: {
@@ -27,6 +26,7 @@ router.post('/create', async (req, res, next) => {
         return res.status(200).json({data: user})
 
     } catch(e){
+        console.log(e)
         return res.status(400).json({error: "Une erreur s'est produite"})
     }
 

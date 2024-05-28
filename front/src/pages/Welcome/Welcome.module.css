@@ -1,0 +1,110 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../../fonts/Montserrat-Regular.ttf");
+}
+
+.container {
+    font-family: montserrat;
+}
+
+.container > h1 {
+    margin: 0;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.first {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.left {
+    width: 40%;
+}
+
+.left > h1 {
+    font-size: 55px;
+}
+
+.left > p {
+    color: grey;
+}
+
+.left > a {
+    background-color: #06c;
+    color: white;
+    padding: 7px;
+    border-radius: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-decoration: none;
+    display: block;
+    width: max-content;
+    margin-top: 30px;
+}
+
+.left > a:hover {
+    opacity: .9;
+}
+
+.img{
+    width: 40%;
+    height: auto;
+}
+
+.avantages {
+    display: flex;
+    justify-content: center;
+    padding-top: 150px;
+    padding-bottom: 150px;
+    background-color: #f1f1f1;
+    column-gap: 50px;
+    align-items: center;
+}
+
+.avantages > h1 {
+    width: 30%;
+    text-align: center;
+}
+
+.avantages > h1 > b {
+    color: #06c
+}
+
+.card{
+    width: 20%;
+    height: auto;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+
+.card > h2 {
+    margin: 0;
+}
+
+.card > p {
+    color: grey;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.mobileDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.left > h1 {
+    font-size: 50px;
+}

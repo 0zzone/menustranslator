@@ -7,6 +7,7 @@ var userRouter = require('./routes/users');
 var etablissementRouter = require('./routes/etablissements')
 var sectionRouter = require("./routes/sections")
 var lineRouter = require("./routes/lines")
+var stripeRouter = require('./routes/stripe')
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use('/users', userRouter);
 app.use("/etablissements", etablissementRouter)
 app.use("/sections", sectionRouter)
 app.use("/lines", lineRouter)
+app.use("/stripe", stripeRouter)
 
 port = 3000
 app.listen(port, () => {

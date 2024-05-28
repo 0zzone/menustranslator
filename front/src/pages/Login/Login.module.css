@@ -7,7 +7,7 @@
     width: 100dvw;
     height: 100dvh;
     background: rgb(174,235,180);
-    background: linear-gradient(267deg, rgba(174,235,180,1) 0%, rgba(126,166,89,1) 100%);
+    background: linear-gradient(267deg, rgb(111, 143, 175) 0%, #06c 100%);
     font-family: montserrat;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .container > div > form > input {
-    width: 80%;
+    width: 90%;
     margin-top: 15px;
     padding: 10px;
     border: 1px solid silver;
@@ -42,8 +42,8 @@
 }
 
 .container > div > form > input[type="submit"] {
-    width: 80%;
-    background-color: #628f50;
+    width: 90%;
+    background-color: #06c;
     color: white;
     cursor: pointer;
     border: none;
@@ -63,4 +63,43 @@
 
 .container > div > a:hover {
     text-decoration: underline;
+}
+
+.plan {
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+    border: 2px solid silver;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #f1f1f1;
+}
+
+.plan > div > h3 {
+    margin: 0;
+}
+
+.plan > div > p{
+    margin: 0;
+    color: silver;
+}
+
+.plan > h2 {
+    text-align: center;
+    margin: 0;
+    color: #06c;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.plan > h2 > b {
+    color: grey;
+    font-size: 15px
 }

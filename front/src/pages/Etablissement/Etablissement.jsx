@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import styles from "./Etablissement.module.css"
 import { useParams } from "react-router-dom"
 import axios from "axios"
@@ -6,7 +6,11 @@ import Skeleton from '@mui/material/Skeleton';
 import { useForm } from "react-hook-form"
 import {toast} from "react-toastify"
 import { MuiColorInput } from 'mui-color-input'
-import { MdOutlineSettings } from "react-icons/md";
+import { IoQrCodeOutline } from "react-icons/io5";
+import QRCode from "react-qr-code";
+import html2canvas from 'html2canvas';
+import { FaLink } from "react-icons/fa6";
+import { CiSettings } from "react-icons/ci";
 
 const Etablissement = () => {
 
@@ -19,6 +23,7 @@ const Etablissement = () => {
     const [change, setChange] = useState(false)
     const [color, setColor] = useState('#ffffff')
     const [settings, setSettings] = useState(false)
+    const [displayQRCode, setDisplayQRCode] = useState(false)
 
     if(!localStorage.getItem("session")) window.location.href = "/login"
 
@@ -139,6 +144,20 @@ const Etablissement = () => {
         })
     }
 
+    const captureRef = useRef();
+    const saveQRCode = async () => {
+        const element = captureRef.current;
+        if (element) {
+            const canvas = await html2canvas(element);
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = image;
+            link.download = 'qrcode.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
 
     return(
         <div className={styles.container}>
@@ -146,25 +165,32 @@ const Etablissement = () => {
             <a href="/etablissements" className={styles.aucun}>&#x2190; Retour</a>
 
 
-            {settings && <div className={styles.shadow} onClick={() => setSettings(false)}></div>}
+            {settings || displayQRCode ? <div className={styles.shadow} onClick={() => settings ? setSettings(false) : setDisplayQRCode(false)}></div> : null}
             {settings && <div className={styles.popup}>
                 <h2>Paramètres</h2>
                 <MuiColorInput value={color} onChange={upateTheme} className={styles.colorPicker} />
                 <form onSubmit={handleSubmit(updateParams)}>
-                    <input type="text" value={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
+                    <input type="text" defaultValue={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
                     <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
                 </form>
             </div>}
 
+            {displayQRCode && <div className={styles.popup}>
+                <div ref={captureRef}><QRCode value={`${import.meta.env.VITE_APP_URL}/menu/${id}`} className={styles.qrcode} /></div>
+                <p onClick={saveQRCode}>Télécharger le QR code</p>
+            </div>}
+
             {data ? <div className={styles.top}>
                 {data.logo ? <img src={data.logo} alt="Logo" /> : <h1>{data.name}</h1>}
-                <MdOutlineSettings className={styles.icon} onClick={() => setSettings(true)} />
+                <div className={styles.right}>
+                    <p style={{backgroundColor: data ? data.theme : color}} onClick={() => setAddSection(true)}>Ajouter une section</p>
+                    <IoQrCodeOutline className={styles.icon} onClick={() => setDisplayQRCode(true)} />
+                    <FaLink className={styles.icon} onClick={() => window.open(`${import.meta.env.VITE_APP_URL}/menu/${id}`, '_blank')} />
+                    <CiSettings className={styles.icon} onClick={() => setSettings(true)} />
+                </div>
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
             
-            <div className={styles.tools}>
-                <p style={{backgroundColor: data ? data.theme : color}} onClick={() => setAddSection(true)}>Ajouter une section</p>
-            </div>
 
             {isAddSection && <form className={styles.addLineStyle} style={{marginLeft: "0px"}} onSubmit={handleSubmit(addSection)}>
                 <input type="text" {...register('name')} placeholder="Nom de la section ..." />

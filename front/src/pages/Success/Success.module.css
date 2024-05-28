@@ -1,0 +1,36 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../../fonts/Montserrat-Regular.ttf");
+}
+
+.container{
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    text-align: center;
+    font-family: montserrat;
+}
+
+
+.container > img {
+    width: 80%;
+    height: auto;
+}
+
+.container > a {
+    color: white;
+    background-color: #06c;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    display: block;
+    width: max-content;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.container > a:hover{
+    opacity: .9;
+}
