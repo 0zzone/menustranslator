@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 150px;
-    padding-bottom: 150px;
+    padding-bottom: 50px;
 }
 
 .left {
@@ -31,19 +31,21 @@
 
 .left > p {
     color: grey;
+    font-size: 20px;
 }
 
 .left > a {
     background-color: #06c;
     color: white;
     padding: 7px;
-    border-radius: 50px;
+    border-radius: 5px;
     padding-left: 15px;
     padding-right: 15px;
     text-decoration: none;
     display: block;
     width: max-content;
     margin-top: 30px;
+    font-size: 20px;
 }
 
 .left > a:hover {
@@ -58,16 +60,17 @@
 .avantages {
     display: flex;
     justify-content: center;
-    padding-top: 150px;
+    padding-top: 50px;
     padding-bottom: 150px;
     background-color: #f1f1f1;
     column-gap: 50px;
     align-items: center;
+    margin-top: -5px;
 }
 
 .avantages > h1 {
     width: 30%;
-    text-align: center;
+    text-align: right;
 }
 
 .avantages > h1 > b {
@@ -77,6 +80,7 @@
 .card{
     width: 20%;
     height: auto;
+    max-height: 200px;
     background-color: white;
     padding: 50px;
     border-radius: 10px;
@@ -107,4 +111,85 @@
 
 .left > h1 {
     font-size: 50px;
+}
+
+.pricingContainer {
+    background-color: #171717;
+    padding: 100px;
+    padding-bottom: 150px;
+}
+
+.pricingContainer > h1 {
+    text-align: center;
+    font-size: 55px;
+    margin: 0;
+    margin-bottom: 80px;
+    color: white;
+}
+
+.pricing {
+    display: flex;
+    justify-content: center;
+    column-gap: 100px;
+}
+
+.pricing > div {
+    width: 300px;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.pricing > div > h1 {
+    margin: 0;
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+.pricing > div > h2 {
+    margin: 0;
+    font-size: 50px;
+    color: #06c;
+}
+
+.pricing > div > h2 > b {
+    color: grey;
+    font-size: 18px;
+}
+
+.pricing > div > p {
+    line-height: 25px;
+    color: silver;
+}
+.pricing > div > p > b {
+    color: rgb(22, 22, 22);
+}
+
+.pricing > div > a {
+    border:2px solid #06c;
+    color: #06c;
+    padding: 7px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-decoration: none;
+    display: block;
+    width: max-content;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.pricing > div > a:hover {
+    opacity: .7;
+}
+
+footer {
+    padding: 20px;
+}
+
+footer > a {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: grey;
 }

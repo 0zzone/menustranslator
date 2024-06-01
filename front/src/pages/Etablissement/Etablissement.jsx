@@ -30,8 +30,6 @@ const Etablissement = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
         reset
     } = useForm()
 
@@ -50,10 +48,16 @@ const Etablissement = () => {
             return
         }
 
+        if(data.rank == "") {
+            toast("La section doit contenir un ordre d'apparition", {type: "error"})
+            return
+        }
+
         const obj = {
             name: data.name,
             id_etablissement: id,
-            price: data.price.length > 0 ? data.price : null
+            price: data.price.length > 0 ? data.price : null,
+            rank: data.rank
         }
         axios.post(`${import.meta.env.VITE_API_URL}/sections/create`, obj).then(res => {
             toast("Section ajoutée !", {type: "success"})
@@ -195,6 +199,7 @@ const Etablissement = () => {
             {isAddSection && <form className={styles.addLineStyle} style={{marginLeft: "0px"}} onSubmit={handleSubmit(addSection)}>
                 <input type="text" {...register('name')} placeholder="Nom de la section ..." />
                 <input type="text" {...register("price")} placeholder="Prix ..." />
+                <input type="number" {...register("rank")} placeholder="Ordre d'apparition ..." />
                 <input style={{backgroundColor: data ? data.theme : color}} type="submit" value="Ajouter" />
                 <p onClick={() => {setAddSection(false); reset({})}}>Annuler</p>
             </form>}
@@ -207,13 +212,17 @@ const Etablissement = () => {
                             {section.id_section === editSection ? <form onSubmit={handleSubmit((data) => editSectionFunc(data, section.id_section))}>
                                 <input type="text" defaultValue={section.name} {...register("name")} placeholder="Nom ..." />
                                 <input type="text" defaultValue={section.price} {...register("price")} placeholder="Prix ..." />
+                                <input type="number" defaultValue={section.rank} {...register("rank")} placeholder="Ordre d'apparition ..." />
                                 <input style={{backgroundColor: data ? data.theme : color}} type="submit" value="Enregistrer" />
                                 <p onClick={() => {setEditSection(null);reset({})}}>Annuler</p>
-                            </form> : <h2>{section.name} {section.price && `- ${section.price}€`}</h2>}
-                            <div className={styles.right}>
-                                <p className={styles.edit} onClick={() => setEditSection(section.id_section)}>Modifier</p>
-                                <p className={styles.delete} onClick={() => deleteSection(section.id_section)}>Supprimer</p>
-                            </div>
+                            </form> : 
+                            <>
+                                <h2>{section.name} <b style={{color: data ? data.theme : color}}>{section.price && `- ${section.price}€`}</b></h2>
+                                <div className={styles.right}>
+                                    <p className={styles.edit} onClick={() => setEditSection(section.id_section)}>Modifier</p>
+                                    <p className={styles.delete} onClick={() => deleteSection(section.id_section)}>Supprimer</p>
+                                </div>
+                            </>}
                         </div>
 
 
@@ -225,7 +234,7 @@ const Etablissement = () => {
                                     <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
                                     <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
                                     <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
-                                </form> : <p>{line.name} {line.price && `- ${line.price}€`}</p>}
+                                </form> : <p>{line.name} <b style={{color: data ? data.theme : color}}>{section.price && `- ${section.price}€`}</b></p>}
                                 <div className={styles.right}>
                                     <p className={styles.edit} onClick={() => setEdit(line.id_line)}>Modifier</p>
                                     <p className={styles.delete} onClick={() => deleteLine(line.id_line)}>Supprimer</p>

@@ -13,6 +13,7 @@ import Etablissements from './pages/Etablissements/Etablissements';
 import Etablissement from './pages/Etablissement/Etablissement';
 import Menu from './pages/Menu/Menu';
 import Success from './pages/Success/Success';
+import Admin from './pages/Admin/Admin';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/success",
     element: <Success />
+  },
+  {
+    path: "/admin/admin",
+    element: <Admin />
   }
 ]);
 

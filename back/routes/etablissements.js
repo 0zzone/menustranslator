@@ -33,9 +33,12 @@ router.get("/:id", async (req, res) => {
                 sections: {
                     include: {
                         lines: true
+                    },
+                    orderBy: {
+                       rank: "asc" 
                     }
                 }
-            }
+            },
         })
 
         return res.status(200).json({data})
@@ -49,7 +52,6 @@ router.get("/:id", async (req, res) => {
 router.post("/update/:id_etablissement", async (req, res) => {
     const {id_etablissement} = req.params
     // const {theme=null, logo=null} = req.body
-    
     try{
 
         const etablissement = await prisma.etablissement.update({
@@ -60,6 +62,28 @@ router.post("/update/:id_etablissement", async (req, res) => {
         })
 
         return res.status(200).json({data: etablissement})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
+router.post("/search", async (req, res) => {
+    const {name} = req.body
+    try {
+        const results = await prisma.etablissement.findMany({
+            where: {
+                name : {
+                    contains: name,
+                    mode: 'insensitive'
+                }
+            },
+            include: {
+                owner: true
+            }
+        })
+
+        return res.status(200).json({data: results})
 
     } catch(e) {
         return res.status(400).json({error: "Une erreur s'est produite"})

@@ -43,6 +43,11 @@ input:nth-child(2){
     margin-left: 10px;
 }
 
+input:nth-child(3) {
+    width: 200px;
+    margin-left: 10px;
+}
+
 .line > form, .line2 > form {
     display: flex;
     justify-content: flex-start;
@@ -53,6 +58,7 @@ input:nth-child(2){
 .line > h2, .line2 > h2 {
     margin: 0
 }
+
 
 .line > form > p, .line2 > form > p {
     margin-left: 20px;
@@ -79,6 +85,7 @@ input:nth-child(2){
     gap: 20px;
     cursor: pointer;
     flex-wrap: wrap;
+    margin-top: 50px;
 }
 
 .sections {

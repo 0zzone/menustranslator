@@ -5,14 +5,15 @@ const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
 
 router.post("/create", async (req, res) => {
-    const {name, price=null, id_etablissement} = req.body
+    const {name, price=null, id_etablissement, rank} = req.body
 
     try{
         const section = await prisma.section.create({
             data: {
                 name,
                 price: price ? parseFloat(price) : null,
-                id_etablissement: parseInt(id_etablissement)
+                id_etablissement: parseInt(id_etablissement),
+                rank: parseInt(rank)
             }
         })
 
@@ -57,7 +58,7 @@ router.post("/delete/:id_section", async (req, res) => {
 
 router.post("/update/:id_section", async (req, res) => {
     const {id_section} = req.params
-    const {name=null, price=null} = req.body
+    const {name=null, price=null, rank} = req.body
     try {
         const section = await prisma.section.update({
             where: {
@@ -65,7 +66,8 @@ router.post("/update/:id_section", async (req, res) => {
             },
             data: {
                 name,
-                price: parseFloat(price)
+                price: parseFloat(price),
+                rank: parseInt(rank)
             }
         })
     
