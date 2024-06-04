@@ -53,5 +53,25 @@ router.get('/get/:email', async (req, res) => {
     }
 })
 
+router.post("/update/:id_user/:price_id", async (req, res) => {
+    const {id_user, price_id} = req.params
+
+    try {
+        const user = await prisma.user.update({
+            where: {
+                id_user: parseInt(id_user)
+            },
+            data: {
+                subscription: price_id
+            }
+        })
+    
+        return res.status(200).json({data: user})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
 
 module.exports = router;

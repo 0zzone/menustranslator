@@ -4,6 +4,9 @@ import axios from "axios"
 import { useForm } from "react-hook-form"
 import {toast} from "react-toastify"
 import Skeleton from '@mui/material/Skeleton';
+import { loadStripe } from '@stripe/stripe-js';
+import clsx from "clsx"
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 
 const Etablissements = () => {
@@ -31,6 +34,7 @@ const Etablissements = () => {
         })()
     }, [change])
 
+
     const onSubmit = (data) => {
         const obj = {
             name: data.name,
@@ -45,6 +49,37 @@ const Etablissements = () => {
         })
     }
 
+    const paySubscription = async () => {
+
+
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/stripe/create-checkout-session`, {
+            price_id: selectedPlan,
+            id_user: user.id_user
+        });
+        
+        const sessionId = response.data.id;
+
+        const stripe = await stripePromise;
+        const result = await stripe.redirectToCheckout({ sessionId });
+        
+        if (result.error) {
+            return
+        }
+
+        
+    }
+
+    const [selectedPlan, setSelectedPlan] = useState(import.meta.env.VITE_SILVER_PRICE)
+    const plans = [
+        {name: "Silver", price: "39", description: "Si vous avez un seul établissement", price_id: import.meta.env.VITE_SILVER_PRICE},
+        {name: "Gold", price: "69", description: "Si vous avez plusieurs établissements", price_id: import.meta.env.VITE_GOLD_PRICE}
+    ]
+
+    const getPlanByPriceId = (priceId) => {
+        for(let i in plans){
+            if(plans[i].price_id === priceId) return plans[i].name
+        }
+    }
 
     return(
         <div className={styles.container}>
@@ -76,7 +111,25 @@ const Etablissements = () => {
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                </div> : <p className={styles.aucun}>Aucun restaurant</p>}
+                </div> : user.subscription ? <p className={styles.aucun}>Aucun restaurant</p>
+                    : <>
+                        <div className={styles.shadow}></div>
+                        <div className={styles.must}>
+                            <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
+                            <div>
+                                {plans.map((plan, index) => (
+                                    <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
+                                        <div>
+                                            <h1>{plan.name}</h1>
+                                            <p>{plan.description}</p>
+                                        </div>
+                                        <h2>{plan.price}€ <b>/mois</b></h2>
+                                    </div>
+                                ))}
+                            </div>
+                            <p onClick={paySubscription}>Opter pour le plan {getPlanByPriceId(selectedPlan)} &#x2192;</p>
+                        </div>
+                    </>}
             </div>
         </div>
     )

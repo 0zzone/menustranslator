@@ -74,3 +74,66 @@ h2 {
     margin-top: 0px;
     font-style: italic;
 }
+
+.shadow {
+    background-color: #333;
+    opacity: .3;
+    width: 100dvw;
+    height: 100dvh;
+    left: 0;
+    top: 0;
+    position: absolute;
+}
+
+.must {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.must > h2 {
+    margin:0;
+    text-align: center;
+    color: #06c;
+}
+
+.must > p {
+    text-align: center;
+    background-color: #06c;
+    padding: 7px;
+    border-radius: 5px;
+    width: max-content;
+    display: block;
+    margin: auto;
+    color: white;
+}
+
+.must > p:hover {
+    opacity: .9;
+}
+
+.must > div {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    column-gap: 50px;
+}
+
+.plan{
+    border: 2px solid #f1f1f1;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 20px;
+    width: 200px;
+}
+
+.selected  {
+    background-color: #f4f4f4;
+}

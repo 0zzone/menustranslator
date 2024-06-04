@@ -1,6 +1,18 @@
 import styles from "./Success.module.css"
+import {useParams} from "react-router-dom"
+import { useEffect } from "react";
+import axios from "axios"
 
 const Success = () => {
+
+    const {price_id, id_user} = useParams();
+
+    useEffect(() => {
+        (async () => {
+            await axios.post(`${import.meta.env.VITE_API_URL}/users/update/${id_user}/${price_id}`)
+        })()
+    })
+
     return(
         <div>
             <div className={styles.container}>

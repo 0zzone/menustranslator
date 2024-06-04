@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     element: <Menu />
   },
   {
-    path: "/success",
+    path: "/success/:id_user/:price_id",
     element: <Success />
   },
   {
