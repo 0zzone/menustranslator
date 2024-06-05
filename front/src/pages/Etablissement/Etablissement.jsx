@@ -234,7 +234,7 @@ const Etablissement = () => {
                                     <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
                                     <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
                                     <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
-                                </form> : <p>{line.name} <b style={{color: data ? data.theme : color}}>{section.price && `- ${section.price}€`}</b></p>}
+                                </form> : <p>{line.name} <b style={{color: data ? data.theme : color}}>{line.price && `- ${line.price}€`}</b></p>}
                                 <div className={styles.right}>
                                     <p className={styles.edit} onClick={() => setEdit(line.id_line)}>Modifier</p>
                                     <p className={styles.delete} onClick={() => deleteLine(line.id_line)}>Supprimer</p>

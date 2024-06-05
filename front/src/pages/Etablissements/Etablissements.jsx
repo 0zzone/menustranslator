@@ -36,17 +36,23 @@ const Etablissements = () => {
 
 
     const onSubmit = (data) => {
-        const obj = {
-            name: data.name,
-            owner_id: user.id_user
-        }
 
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/create`, obj).then(res => {
-            toast("Restaurant ajouté !", {type: "success"})
-            setChange(!change)
-        }).catch(e => {
-            toast(e.data.response.error, {type: "error"})
-        })
+        if(data.name.length > 1){
+            const obj = {
+                name: data.name,
+                owner_id: user.id_user
+            }
+    
+            axios.post(`${import.meta.env.VITE_API_URL}/etablissements/create`, obj).then(res => {
+                toast("Restaurant ajouté !", {type: "success"})
+                setChange(!change)
+            }).catch(e => {
+                toast(e.data.response.error, {type: "error"})
+            })
+        } else {
+            toast("Le champ doit être rempli !", {type: "error"})
+        }
+        
     }
 
     const paySubscription = async () => {

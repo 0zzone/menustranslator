@@ -63,3 +63,68 @@
 .progress {
     margin-top: 30px;
 }
+
+.bigContainerLang{
+    position: relative;
+    margin-top: 30px;
+}
+
+.containerLang{
+    width: max-content;
+    border: 1.5px solid #dbdbdb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    column-gap: 10px;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.containerLang:hover {
+    background-color: #F1F1F1;
+}
+
+.containerLang > img {
+    width: 40px;
+}
+
+.containerLang > p {
+    margin: 0;
+}
+
+.dropdown {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 50px;
+    background-color: #F1F1F1;
+    border-radius: 10px;
+}
+
+.line{
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 10px;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.line > img {
+    width: 40px;
+    height: auto;
+}
+
+.line:hover{
+    background-color: #dbdbdb;
+}
+
+.line > p {
+    margin: 0;
+}
