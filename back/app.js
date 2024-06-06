@@ -23,7 +23,7 @@ app.use("/sections", sectionRouter)
 app.use("/lines", lineRouter)
 app.use("/stripe", stripeRouter)
 
-port = 3000
+port = 3333
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
