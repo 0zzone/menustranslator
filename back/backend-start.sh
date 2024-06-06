@@ -2,7 +2,7 @@
 
 sleep 10
 
-npx prisma generate
-npx prisma db push
+npm run prisma generate
+npm run prisma db push
 
 node app.js
