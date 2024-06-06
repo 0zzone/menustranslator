@@ -1,5 +1,5 @@
 # Stage 1: Build the React application
-FROM node:14 as build
+FROM node:19 as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -23,7 +23,7 @@ ENV VITE_GOLD_PRICE=${VITE_GOLD_PRICE}
 RUN npm run build
 
 # Stage 2: Serve the app using a lightweight node server like serve
-FROM node:14
+FROM node:19
 WORKDIR /app
 COPY --from=build /app/dist /app
 RUN npm install -g serve
