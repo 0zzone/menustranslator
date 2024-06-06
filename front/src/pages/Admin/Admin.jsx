@@ -14,6 +14,7 @@ const Admin = () => {
 
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [change, setChange] = useState(false)
     
     const onSubmit = (data) => {
         const {name} = data
@@ -34,7 +35,17 @@ const Admin = () => {
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
         })
-    }, [])
+    }, [change])
+
+    const changeSubscription = (id_user, new_price_id, previous_price_id) => {
+        if(new_price_id !== previous_price_id) {
+            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${id_user}/${new_price_id}`).then(res => {
+                setChange(!change)
+            }).catch(e => {
+                toast(e.response.data.error, {type: "error"})
+            }) 
+        }
+    }
 
     return(
         <div className={styles.container}>
@@ -56,11 +67,19 @@ const Admin = () => {
                             <div className={styles.right}>
                                 <div>
                                     <p>Silver</p>
-                                    <div style={resto.owner.subscription === import.meta.env.VITE_SILVER_PRICE ? {backgroundColor: "#333"} : undefined}></div>
+                                    <div
+                                        style={resto.owner.subscription === import.meta.env.VITE_SILVER_PRICE ? {backgroundColor: "#333"} : undefined}
+                                        onClick={() => changeSubscription(resto.owner.id_user, import.meta.env.VITE_SILVER_PRICE, resto.owner.subscription)}
+                                    >
+                                    </div>
                                 </div>
                                 <div>
                                     <p>Gold</p>
-                                    <div style={resto.owner.subscription === import.meta.env.VITE_GOLD_PRICE ? {backgroundColor: "#333"} : undefined}></div>
+                                    <div
+                                        style={resto.owner.subscription === import.meta.env.VITE_GOLD_PRICE ? {backgroundColor: "#333"} : undefined}
+                                        onClick={() => changeSubscription(resto.owner.id_user, import.meta.env.VITE_GOLD_PRICE, resto.owner.subscription)}
+                                    >
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,36 @@
+name: Docker Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.TOKEEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Front
+        run: |
+          docker buildx build -t ghcr.io/0zzone/MenusTranslator/front:latest \
+          --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
+          --build-arg VITE_APP_URL=${{ secrets.VITE_APP_URL }} \
+          --build-arg VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }} \
+          --build-arg VITE_SILVER_PRICE=${{ secrets.VITE_SILVER_PRICE }} \
+          --build-arg VITE_GOLD_PRICE=${{ secrets.VITE_GOLD_PRICE }} \
+          ./front
+
+      - name: Push Front
+        run: docker push ghcr.io/0zzone/MenusTranslator/front:latest
+
+      - name: Back
+        run: docker buildx build -t ghcr.io/0zzone/MenusTranslator/back:latest ./back
+
+      - name: Push Back
+        run: docker push ghcr.io/0zzone/MenusTranslator/back:latest
