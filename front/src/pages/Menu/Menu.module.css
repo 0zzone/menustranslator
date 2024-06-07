@@ -1,10 +1,10 @@
 @font-face {
-    font-family: montserrat;
-    src: url("../../fonts/Montserrat-Regular.ttf");
+    font-family: poppins;
+    src: url("../../fonts/Poppins-Regular.ttf");
 }
 
 .container {
-    font-family: montserrat;
+    font-family: poppins;
     padding-top: 25px;
     margin-left: 30px;
     margin-right: 30px;
@@ -41,7 +41,7 @@
 .credits {
     text-align: center;
     color: silver;
-    font-family: montserrat;
+    font-family: poppins;
     margin-top: 50px;
     margin-bottom: 30px;
 }
@@ -55,7 +55,7 @@
 
 .loading > p {
     text-align: center;
-    font-family: montserrat;
+    font-family: poppins;
     color: silver;
     font-size: 20px;
 }

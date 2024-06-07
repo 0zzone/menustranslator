@@ -1,10 +1,10 @@
 @font-face {
-    font-family: montserrat;
-    src: url("../../fonts/Montserrat-Regular.ttf");
+    font-family: poppins;
+    src: url("../../fonts/Poppins-Regular.ttf");
 }
 
 .container {
-    font-family: montserrat;
+    font-family: poppins;
 }
 
 .container > h1 {
@@ -203,10 +203,10 @@ footer > a {
 
     .first {
         flex-direction: column;
-        padding-top: 50px;
-        padding-bottom: 50px;
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .left {
@@ -214,7 +214,18 @@ footer > a {
         text-align: center;
     }
 
+    .left > h1 {
+        font-size: 45px;
+    }
+
     .left > a {
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .left > h1 {
+        width: 80%;
         margin: auto;
     }
 
@@ -225,25 +236,37 @@ footer > a {
     .avantages {
         flex-direction: column;
         row-gap: 40px;
+        margin-top: -7px;
+        padding-bottom: 100px;
     }
 
     .avantages > h1 {
-        width: 90%;
+        width: 80%;
         text-align: center;
     }
 
     .card {
         width: 50%;
+        padding-bottom: 120px;
     }
 
     .mobileDiv {
         flex-direction: column-reverse;
         padding: 20px;
+        padding-top: 100px;
+        padding-bottom: 100px;
     }
 
     .pricingContainer {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    .pricingContainer > h1 {
+        font-size: 40px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .pricing {

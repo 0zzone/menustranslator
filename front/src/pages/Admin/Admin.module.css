@@ -1,10 +1,10 @@
 @font-face {
-    font-family: montserrat;
-    src: url("../../fonts/Montserrat-Regular.ttf");
+    font-family: poppins;
+    src: url("../../fonts/Poppins-Regular.ttf");
 }
 
 .container {
-    font-family: montserrat;
+    font-family: poppins;
 }
 
 .container > h1 {
