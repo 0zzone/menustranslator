@@ -7,11 +7,30 @@
     font-family: montserrat;
     padding-top: 50px;
     padding-left: 100px;
+    padding-right: 50px;
 }
 
-.container > h1 {
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top > h1 {
     margin: 0;
     font-size: 50px;
+}
+
+.top > p {
+    color: white;
+    background-color: rgb(208, 88, 88);
+    width: max-content;
+    padding: 7px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.top > p:hover {
+    opacity: .9;
 }
 
 form{

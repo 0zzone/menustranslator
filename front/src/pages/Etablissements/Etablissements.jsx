@@ -87,10 +87,20 @@ const Etablissements = () => {
         }
     }
 
+    const logout = () => {
+        localStorage.removeItem("session")
+        window.location.href = "/"
+    }
+
+
     return(
         <div className={styles.container}>
 
-            {user ? <h1>Bonjour, {user.firstName} 👋</h1> : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
+            {user ? <div className={styles.top}>
+                <h1>Bonjour, {user.firstName} 👋</h1>
+                <p onClick={logout}>Déconnexion</p>
+            </div>
+            : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input type="text" {...register("name")} placeholder="Nom du restaurant ..." />
                 <input type="submit" value="Ajouter" /> 

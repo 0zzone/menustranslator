@@ -193,3 +193,79 @@ footer > a {
     text-decoration: none;
     color: grey;
 }
+
+
+@media screen and (max-width: 1024px) {
+
+    .container > h1 {
+        text-align: center;
+    }
+
+    .first {
+        flex-direction: column;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .left {
+        width: 100%;
+        text-align: center;
+    }
+
+    .left > a {
+        margin: auto;
+    }
+
+    .img {
+        width: 90%;
+    }
+
+    .avantages {
+        flex-direction: column;
+        row-gap: 40px;
+    }
+
+    .avantages > h1 {
+        width: 90%;
+        text-align: center;
+    }
+
+    .card {
+        width: 50%;
+    }
+
+    .mobileDiv {
+        flex-direction: column-reverse;
+        padding: 20px;
+    }
+
+    .pricingContainer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .pricing {
+        flex-direction: column;
+        row-gap: 30px;
+        padding: 0;
+    }
+
+    .pricing > div {
+        width: 80%;
+        box-sizing: border-box;
+        margin: auto;
+        text-align: center;
+    }
+
+    .phone {
+        width: 100%;
+    }
+
+    .pricing > div > a {
+        margin: auto;
+        margin-top: 30px;
+    }
+
+}
