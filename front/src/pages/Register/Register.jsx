@@ -36,7 +36,7 @@ const Register = () => {
                 password: bcrypt.hashSync(data.password, salt),
             }
             axios.post(`${import.meta.env.VITE_API_URL}/users/create`, obj).then(res => {
-                localStorage.setItem("session", JSON.stringify(res.data))
+                localStorage.setItem("session", JSON.stringify(res.data.data))
                 window.location.href = "/etablissements"
             }).catch(e => {
                 toast(e.response.data.error, {type: "error"})

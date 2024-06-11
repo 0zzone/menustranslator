@@ -28,7 +28,7 @@ const Etablissements = () => {
         (async () => {
             const user = JSON.parse(localStorage.getItem("session"))
             setLoading(true)
-            const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${user.data.email}`)
+            const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${user.email}`)
             setUser(userDB.data.data)
             setLoading(false)
         })()
