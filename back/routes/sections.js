@@ -3,8 +3,9 @@ var router = express.Router();
 require("dotenv").config()
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
+const authenticateToken = require("./middleware")
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, async (req, res) => {
     const {name, price=null, id_etablissement, rank} = req.body
 
     try{
@@ -25,7 +26,7 @@ router.post("/create", async (req, res) => {
 })
 
 
-router.post("/delete/:id_section", async (req, res) => {
+router.post("/delete/:id_section", authenticateToken, async (req, res) => {
     const {id_section} = req.params
     try {
         const section = await prisma.section.findUnique({
@@ -56,7 +57,7 @@ router.post("/delete/:id_section", async (req, res) => {
     }
 })
 
-router.post("/update/:id_section", async (req, res) => {
+router.post("/update/:id_section", authenticateToken, async (req, res) => {
     const {id_section} = req.params
     const {name=null, price=null, rank} = req.body
     try {

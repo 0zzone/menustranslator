@@ -59,7 +59,12 @@ const Etablissement = () => {
             price: data.price.length > 0 ? data.price : null,
             rank: data.rank
         }
-        axios.post(`${import.meta.env.VITE_API_URL}/sections/create`, obj).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/sections/create`, obj, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Section ajoutée !", {type: "success"})
             setAddSection(false)
             reset({})
@@ -80,7 +85,12 @@ const Etablissement = () => {
             id_section: addLine,
             price: data.price.length > 0 ? data.price : null
         }
-        axios.post(`${import.meta.env.VITE_API_URL}/lines/create`, obj).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/lines/create`, obj, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Ligne ajoutée !", {type: "success"})
             setAddLine(null)
             reset({})
@@ -91,7 +101,12 @@ const Etablissement = () => {
     }
 
     const editLine = (data, id_line) => {
-        axios.post(`${import.meta.env.VITE_API_URL}/lines/update/${id_line}`, data).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/lines/update/${id_line}`, data, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Ligne modifiée !", {type: "success"})
             setEdit(null)
             reset({})
@@ -101,7 +116,12 @@ const Etablissement = () => {
     }
 
     const deleteLine = (id_line) => {
-        axios.post(`${import.meta.env.VITE_API_URL}/lines/delete/${id_line}`).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/lines/delete/${id_line}`,{}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Ligne supprimée !", {type: "success"})
             setChange(!change)
         }).catch(e => {
@@ -110,7 +130,12 @@ const Etablissement = () => {
     }
 
     const editSectionFunc = (data, id_section) => {
-        axios.post(`${import.meta.env.VITE_API_URL}/sections/update/${id_section}`, data).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/sections/update/${id_section}`, data, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Section modifiée !", {type: "success"})
             setEditSection(null)
             reset({})
@@ -120,7 +145,12 @@ const Etablissement = () => {
     }
 
     const deleteSection = (id_section) => {
-        axios.post(`${import.meta.env.VITE_API_URL}/sections/delete/${id_section}`).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/sections/delete/${id_section}`, {}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Section supprimée !", {type: "success"})
             setChange(!change)
         }).catch(e => {
@@ -130,7 +160,12 @@ const Etablissement = () => {
 
     const upateTheme = (theme) => {
         setColor(theme)
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {theme}).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {theme}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             setChange(!change)
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
@@ -138,7 +173,12 @@ const Etablissement = () => {
     }
 
     const updateParams = (data) => {
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {logo: data.logo}).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {logo: data.logo}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             toast("Logo mis à jour !", {type: "success"})
             setChange(!change)
             setSettings(false)

@@ -27,6 +27,8 @@
     padding: 7px;
     border-radius: 10px;
     cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .top > p:hover {

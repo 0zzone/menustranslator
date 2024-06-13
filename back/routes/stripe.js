@@ -4,10 +4,10 @@ require("dotenv").config()
 const { PrismaClient, Prisma } = require('@prisma/client');
 const { parse } = require('dotenv');
 const prisma = new PrismaClient()
-
+const authenticateToken = require("./middleware")
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-router.post('/create-checkout-session', async (req, res) => {
+router.post('/create-checkout-session', authenticateToken, async (req, res) => {
     const {price_id, id_user} = req.body
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -18,14 +18,14 @@ router.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `http://localhost:5173/success/${id_user}/${price_id}`,
-      cancel_url: 'http://localhost:5173/register',
+      success_url: `${process.env.FRONTEND_DOMAIN}/success/${id_user}/${price_id}`,
+      cancel_url: `${process.env.FRONTEND_DOMAIN}/register`,
     });
 
   res.json({ id: session.id });
 });
 
-router.post('/update/:id_user/:price_id', async (req, res) => {
+router.post('/update/:id_user/:price_id', authenticateToken, async (req, res) => {
   const {id_user, price_id} = req.params
   try {
     const user = await prisma.user.update({

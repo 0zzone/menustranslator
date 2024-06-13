@@ -3,8 +3,9 @@ var router = express.Router();
 require("dotenv").config()
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
+const authenticateToken = require("./middleware")
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, async (req, res) => {
     const {name, owner_id} = req.body
 
     try{
@@ -49,7 +50,7 @@ router.get("/:id", async (req, res) => {
 })
 
 
-router.post("/update/:id_etablissement", async (req, res) => {
+router.post("/update/:id_etablissement", authenticateToken, async (req, res) => {
     const {id_etablissement} = req.params
     // const {theme=null, logo=null} = req.body
     try{
@@ -68,7 +69,7 @@ router.post("/update/:id_etablissement", async (req, res) => {
     }
 })
 
-router.post("/search", async (req, res) => {
+router.post("/search", authenticateToken, async (req, res) => {
     const {name} = req.body
     try {
         const results = await prisma.etablissement.findMany({

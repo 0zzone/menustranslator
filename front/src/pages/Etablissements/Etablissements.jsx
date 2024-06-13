@@ -50,7 +50,12 @@ const Etablissements = () => {
                 owner_id: user.id_user
             }
     
-            axios.post(`${import.meta.env.VITE_API_URL}/etablissements/create`, obj).then(res => {
+            const session = JSON.parse(localStorage.getItem("session"))
+            axios.post(`${import.meta.env.VITE_API_URL}/etablissements/create`, obj, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
+                }
+            }).then(res => {
                 toast("Restaurant ajouté !", {type: "success"})
                 setChange(!change)
             }).catch(e => {
@@ -64,10 +69,14 @@ const Etablissements = () => {
 
     const paySubscription = async () => {
 
-
+        const session = JSON.parse(localStorage.getItem("session"))
         const response = await axios.post(`${import.meta.env.VITE_API_URL}/stripe/create-checkout-session`, {
             price_id: selectedPlan,
             id_user: user.id_user
+        }, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
         });
         
         const sessionId = response.data.id;

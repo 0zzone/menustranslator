@@ -103,3 +103,14 @@
     color: grey;
     font-size: 15px
 }
+
+@media screen and (max-width: 1024px) {
+
+    .container > div {
+        width: 80%;
+        box-sizing: border-box;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}

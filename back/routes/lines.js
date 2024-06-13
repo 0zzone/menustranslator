@@ -3,8 +3,9 @@ var router = express.Router();
 require("dotenv").config()
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
+const authenticateToken = require("./middleware")
 
-router.post("/create", async (req, res) => {
+router.post("/create", authenticateToken, async (req, res) => {
     const {name, price=null, id_section} = req.body
     try{
 
@@ -23,7 +24,7 @@ router.post("/create", async (req, res) => {
     }
 })
 
-router.post('/delete/:id_line', async (req, res) => {
+router.post('/delete/:id_line', authenticateToken, async (req, res) => {
     const {id_line} = req.params
     try{
         const line = await prisma.line.delete({
@@ -39,7 +40,7 @@ router.post('/delete/:id_line', async (req, res) => {
     }
 })
 
-router.post("/update/:id_line", async (req, res) => {
+router.post("/update/:id_line", authenticateToken, async (req, res) => {
     const {id_line} = req.params
     const {name=null, price=null} = req.body
     try{

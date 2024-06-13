@@ -19,7 +19,12 @@ const Admin = () => {
     const onSubmit = (data) => {
         const {name} = data
         setLoading(true)
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name}).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             setData(res.data.data)
             setLoading(false)
         }).catch(e => {
@@ -29,7 +34,12 @@ const Admin = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name: ""}).then(res => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name: ""}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
             setData(res.data.data)
             setLoading(false)
         }).catch(e => {
@@ -40,7 +50,7 @@ const Admin = () => {
     const changeSubscription = (id_user, new_price_id, previous_price_id) => {
         if(new_price_id !== previous_price_id) {
             const session = JSON.parse(localStorage.getItem("session"))
-            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${id_user}/${new_price_id}`, {
+            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${id_user}/${new_price_id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${session.token}`
                 }
