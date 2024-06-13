@@ -16,19 +16,9 @@ const Login = () => {
     } = useForm()
 
     const onSubmit = (data) => {
-        const {email, password} = data
-        axios.get(`${import.meta.env.VITE_API_URL}/users/get/${email}`).then(res => {
-            const user = res.data.data
-            if(!user) {
-                toast("Email ou mot de passe incorrect", {type: "error"})
-                return
-            }
-            if(bcrypt.compareSync(password, user.password)){
-                localStorage.setItem("session", JSON.stringify(user))
-                window.location.href = "/etablissements"
-            } else {
-                toast("Email ou mot de passe incorrect", {type: "error"})
-            }
+        axios.post(`${import.meta.env.VITE_API_URL}/users/login`, data).then(res => {
+            localStorage.setItem("session", JSON.stringify({user: res.data.data, token: res.data.token}))
+            window.location.href = "/etablissements"
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
         })

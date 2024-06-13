@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 require("dotenv").config()
+const bcrypt = require('bcryptjs');
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
+const authenticateToken = require("./middleware")
+const JWT_SECRET = process.env.JWT_SECRET;
+const jwt = require('jsonwebtoken');
 
-router.post('/create', async (req, res, next) => {
+router.post('/create', async (req, res) => {
     const {email, firstName, lastName, password, subscription} = req.body
     try {
         const user_already = await prisma.user.findFirst({
@@ -22,19 +26,40 @@ router.post('/create', async (req, res, next) => {
                 email, firstName, lastName, password, subscription
             }
         })
+    
+        const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '10h' });
 
-        return res.status(200).json({data: user})
+        return res.status(200).json({data: user, token})
 
     } catch(e){
-        console.log(e)
         return res.status(400).json({error: "Une erreur s'est produite"})
     }
 
 });
 
-router.get('/get/:email', async (req, res) => {
-    const {email} = req.params
+router.post("/login", async (req, res) => {
+    const {email, password} = req.body
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
 
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if(isPasswordValid) {
+            const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '10h' });
+            return res.status(200).json({data: user, token })
+        } else {
+            return res.status(400).json({error: "Email ou mot de passe incorect"})
+        }
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
+router.get('/get/:email', authenticateToken, async (req, res) => {
+    const {email} = req.params
     try{
         const user = await prisma.user.findUnique({
             where: {
@@ -53,7 +78,8 @@ router.get('/get/:email', async (req, res) => {
     }
 })
 
-router.post("/update/:id_user/:price_id", async (req, res) => {
+router.post("/update/:id_user/:price_id", authenticateToken, async (req, res) => {
+
     const {id_user, price_id} = req.params
 
     try {

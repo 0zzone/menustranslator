@@ -9,7 +9,12 @@ const Success = () => {
 
     useEffect(() => {
         (async () => {
-            await axios.post(`${import.meta.env.VITE_API_URL}/users/update/${id_user}/${price_id}`)
+            const session = JSON.parse(localStorage.getItem("session"))
+            await axios.post(`${import.meta.env.VITE_API_URL}/users/update/${id_user}/${price_id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
+                }
+            })
         })()
     })
 

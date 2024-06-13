@@ -26,11 +26,18 @@ const Etablissements = () => {
 
     useEffect(() => {
         (async () => {
-            const user = JSON.parse(localStorage.getItem("session"))
-            setLoading(true)
-            const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${user.email}`)
-            setUser(userDB.data.data)
-            setLoading(false)
+            try {
+                const session = JSON.parse(localStorage.getItem("session"))
+                const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${session.user.email}`, {
+                    headers: {
+                        Authorization: `Bearer ${session.token}`
+                    }
+                })
+                setUser(userDB.data.data)
+                setLoading(false)
+            } catch(e) {
+                localStorage.removeItem('session')
+            }
         })()
     }, [change])
 

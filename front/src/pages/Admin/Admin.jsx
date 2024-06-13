@@ -39,7 +39,12 @@ const Admin = () => {
 
     const changeSubscription = (id_user, new_price_id, previous_price_id) => {
         if(new_price_id !== previous_price_id) {
-            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${id_user}/${new_price_id}`).then(res => {
+            const session = JSON.parse(localStorage.getItem("session"))
+            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${id_user}/${new_price_id}`, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
+                }
+            }).then(res => {
                 setChange(!change)
             }).catch(e => {
                 toast(e.response.data.error, {type: "error"})
