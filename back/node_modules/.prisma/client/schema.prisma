@@ -19,6 +19,7 @@ model User {
   lastName String
   password String
   subscription String?
+  role String @default("USER")
 
   etablissements Etablissement[]
 
@@ -29,7 +30,7 @@ model Etablissement {
   createdAt DateTime @default(now())
   name String
   owner_id Int
-  theme String @default("rgba(98, 143, 80)")
+  theme String @default("rgb(113, 154, 97)")
   logo String?
 
   owner User @relation(fields: [owner_id], references: [id_user])
@@ -54,6 +55,7 @@ model Line {
   name String
   price Float?
   id_section Int
+  rank Int
 
   section Section @relation(fields: [id_section], references: [id_section])
 

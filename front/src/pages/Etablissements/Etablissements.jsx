@@ -12,6 +12,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const Etablissements = () => {
 
     if(!localStorage.getItem("session")) window.location.href = "/login"
+    if(window.innerWidth < 1024) window.location.href = "/mobile"
 
     const [user, setUser] = useState(null)
     const [change, setChange] = useState(false)
@@ -22,6 +23,7 @@ const Etablissements = () => {
         handleSubmit,
         watch,
         formState: { errors },
+        reset
     } = useForm()
 
     useEffect(() => {
@@ -58,8 +60,9 @@ const Etablissements = () => {
             }).then(res => {
                 toast("Restaurant ajouté !", {type: "success"})
                 setChange(!change)
+                reset()
             }).catch(e => {
-                toast(e.data.response.error, {type: "error"})
+                toast(e.response.data.error, {type: "error"})
             })
         } else {
             toast("Le champ doit être rempli !", {type: "error"})

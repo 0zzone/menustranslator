@@ -15,6 +15,7 @@ const Lang = ({lang, setLang}) => {
     return(
         <div className={styles.bigContainerLang}>
 
+            {display && <div className={styles.shadow} onClick={() => setDisplay(false)}></div>}
 
             {display && <div className={styles.dropdown}>
                 {langs.filter(lg => lang != lg).map((lang, index) => (

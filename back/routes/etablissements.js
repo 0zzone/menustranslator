@@ -9,6 +9,26 @@ router.post("/create", authenticateToken, async (req, res) => {
     const {name, owner_id} = req.body
 
     try{
+
+        const user = await prisma.user.findUnique({
+            where: {
+                email: req.user.email
+            },
+            include: {
+                etablissements: true
+            }
+        })
+
+        if(!user.subscription){
+            return res.status(400).json({error: "Vous devez souscrire à un abonnement"})
+        }
+
+        if(user.subscription === process.env.SILVER_PRICE){
+            if(user.etablissements.length > 0){
+                return res.status(400).json({error: "Votre abonnement ne vous permet pas d'avoir plusieurs établissements"})
+            }
+        }
+
         const etablissement = await prisma.etablissement.create({
             data: {
                 name,
@@ -33,7 +53,11 @@ router.get("/:id", async (req, res) => {
             include: {
                 sections: {
                     include: {
-                        lines: true
+                        lines: {
+                            orderBy: {
+                                rank: "asc" 
+                            }
+                        }
                     },
                     orderBy: {
                        rank: "asc" 
@@ -42,7 +66,9 @@ router.get("/:id", async (req, res) => {
             },
         })
 
-        return res.status(200).json({data})
+        if(data !== null)
+            return res.status(200).json({data})
+        return res.status(404).json({error: "Aucun établissement n'a été trouvé !"})
 
     } catch(e) {
         return res.status(400).json({error: "Une erreur s'est produite"})

@@ -26,6 +26,20 @@
     margin-top: 50px;
 }
 
+.top {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 20px;
+}
+
+.top > p {
+    margin: 0;
+}
+
+.top > p:last-child{
+    color: #06C
+}
+
 .data > div {
     border: 1px solid silver;
     padding: 20px;

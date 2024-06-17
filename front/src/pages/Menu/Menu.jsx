@@ -5,6 +5,8 @@ import axios from "axios"
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Lang from "./Lang";
+import { translate } from "../../functions/translator";
+import {toast} from "react-toastify"
 
 const Menu = () => {
 
@@ -16,12 +18,25 @@ const Menu = () => {
     useEffect(() => {
         (async () => {
             setLoading(true)
-            axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`).then(res => {
-                setData(res.data.data)
-                setLoading(false)
+            axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`).then(async res => {
+                if(lang !== "FR"){
+                    let tab = await translate(res.data.data, lang)
+                    setData(tab)
+                    setLoading(false)
+                } else {
+                    setData(res.data.data)
+                    setLoading(false)
+                }
+            }).catch(e => {
+                if(e.response.status === 404){
+                    window.location.href = "/notFound"
+                } else {
+                    toast(e.response.data.error, {type: "error"})
+                }
             })
         })()
-    }, [])
+    }, [lang])
+
 
     return(
         <>
@@ -34,10 +49,10 @@ const Menu = () => {
                     <div key={index}>
                         <h2 style={{color: data ? data.theme : "#628f50"}}>{section.name} {section.price && `- ${section.price}€`}</h2>
                         {section.lines.map((line, index2) => (
-                            <> 
+                            <div key={`${index}_${index2}`}> 
                                 {index2 > 0 && <div className={styles.ball}></div>}
-                                <p key={`${index}_${index2}`}>{line.name} {line.price && `- ${line.price}€`}</p>
-                            </>
+                                <p>{line.name} {line.price && `- ${line.price}€`}</p>
+                            </div>
                         ))}
                     </div>
                 ))}

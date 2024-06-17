@@ -34,7 +34,7 @@
     text-align: center;
 }
 
-.container > div > p{
+.container > div > p, .container > div > div > p{
     text-align: center;
 }
 
@@ -127,4 +127,13 @@
 
 .line > p {
     margin: 0;
+}
+
+.shadow {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    background-color: transparent;
+    width: 100dvw;
+    height: 100dvh;
 }

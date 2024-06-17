@@ -198,10 +198,11 @@ input:nth-child(3) {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
 }
 
 .popup > form > input {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .popup > form > input[type="submit"] {

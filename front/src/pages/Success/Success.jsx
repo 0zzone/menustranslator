@@ -5,6 +5,8 @@ import axios from "axios"
 
 const Success = () => {
 
+    if(window.innerWidth < 1024) window.location.href = "/mobile"
+
     const {price_id, id_user} = useParams();
 
     useEffect(() => {

@@ -6,14 +6,15 @@ const prisma = new PrismaClient()
 const authenticateToken = require("./middleware")
 
 router.post("/create", authenticateToken, async (req, res) => {
-    const {name, price=null, id_section} = req.body
+    const {name, price=null, id_section, rank} = req.body
     try{
 
         const line = await prisma.line.create({
             data: {
                 name,
                 price: price ? parseFloat(price) : null,
-                id_section: parseInt(id_section)
+                id_section: parseInt(id_section),
+                rank: parseInt(rank)
             }
         })
 

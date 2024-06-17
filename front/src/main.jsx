@@ -14,6 +14,8 @@ import Etablissement from './pages/Etablissement/Etablissement';
 import Menu from './pages/Menu/Menu';
 import Success from './pages/Success/Success';
 import Admin from './pages/Admin/Admin';
+import Mobile from './pages/Mobile/Mobile';
+import NotFound from './pages/NotFound/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
   {
     path: "/admin/admin",
     element: <Admin />
+  },
+  {
+    path: "/mobile",
+    element: <Mobile />
+  },
+  {
+    path: "/notFound",
+    element: <NotFound />
   }
 ]);
 

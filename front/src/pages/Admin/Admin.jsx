@@ -7,6 +7,8 @@ import Skeleton from '@mui/material/Skeleton';
 
 const Admin = () => {
 
+    if(JSON.parse(localStorage.getItem("session")).user.role !== "ADMIN") window.location.href = "/"
+
     const {
         register,
         handleSubmit,
@@ -15,7 +17,19 @@ const Admin = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [change, setChange] = useState(false)
+    const [usersNumber, setUsersNumber] = useState(0)
     
+    const getNumberUsers = (data) => {
+        let tab = []
+        for(let i=0; i<data.length; i++) {
+            if(!tab.includes(data[i].owner.email)){
+                tab.push(data[i].owner.email)
+            }
+        }
+        setUsersNumber(tab.length)
+    }
+
+
     const onSubmit = (data) => {
         const {name} = data
         setLoading(true)
@@ -26,6 +40,7 @@ const Admin = () => {
             }
         }).then(res => {
             setData(res.data.data)
+            getNumberUsers(res.data.data)
             setLoading(false)
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
@@ -41,9 +56,16 @@ const Admin = () => {
             }
         }).then(res => {
             setData(res.data.data)
+            getNumberUsers(res.data.data)
             setLoading(false)
         }).catch(e => {
-            toast(e.response.data.error, {type: "error"})
+            console.log(e)
+            if(e.response.status === 403){
+                localStorage.removeItem("session")
+                window.location.href = "/login"
+            } else{
+                toast(e.response.data.error, {type: "error"})
+            }
         })
     }, [change])
 
@@ -71,7 +93,10 @@ const Admin = () => {
             </form>
 
             {!loading ? <div className={styles.dataContainer}>
-                <p>{data.length === 0 ? "Aucun résultat" : data.length === 1 ? "1 résultat" : `${data.length} résultats`}</p>
+                <div className={styles.top}>
+                    <p>{data.length === 0 ? "Aucun résultat" : data.length === 1 ? "1 résultat" : `${data.length} résultats`}</p>
+                    <p>{usersNumber === 0 ? "Aucun utilisateur" : usersNumber === 1 ? "1 utilisateur" : `${usersNumber} utilisateurs`}</p>
+                </div>
                 <div className={styles.data}>
                     {data.map((resto, index) => (
                         <div key={index}>

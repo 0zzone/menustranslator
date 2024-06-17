@@ -26,6 +26,7 @@ const Etablissement = () => {
     const [displayQRCode, setDisplayQRCode] = useState(false)
 
     if(!localStorage.getItem("session")) window.location.href = "/login"
+    if(window.innerWidth < 1024) window.location.href = "/mobile"
 
     const {
         register,
@@ -80,10 +81,16 @@ const Etablissement = () => {
             return
         }
 
+        if(data.rank == "") {
+            toast("La section doit contenir un ordre d'apparition", {type: "error"})
+            return
+        }
+
         const obj = {
             name: data.name,
             id_section: addLine,
-            price: data.price.length > 0 ? data.price : null
+            price: data.price.length > 0 ? data.price : null,
+            rank: data.rank
         }
         const session = JSON.parse(localStorage.getItem("session"))
         axios.post(`${import.meta.env.VITE_API_URL}/lines/create`, obj, {
@@ -130,6 +137,17 @@ const Etablissement = () => {
     }
 
     const editSectionFunc = (data, id_section) => {
+
+        if(data.name.length < 5){
+            toast("La section doit au moins avoir 5 caractères", {type: "error"})
+            return
+        }
+
+        if(data.rank == "") {
+            toast("La section doit contenir un ordre d'apparition", {type: "error"})
+            return
+        }
+
         const session = JSON.parse(localStorage.getItem("session"))
         axios.post(`${import.meta.env.VITE_API_URL}/sections/update/${id_section}`, data, {
             headers: {
@@ -158,28 +176,14 @@ const Etablissement = () => {
         })
     }
 
-    const upateTheme = (theme) => {
-        setColor(theme)
-        const session = JSON.parse(localStorage.getItem("session"))
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {theme}, {
-            headers: {
-                Authorization: `Bearer ${session.token}`
-            }
-        }).then(res => {
-            setChange(!change)
-        }).catch(e => {
-            toast(e.response.data.error, {type: "error"})
-        })
-    }
-
     const updateParams = (data) => {
         const session = JSON.parse(localStorage.getItem("session"))
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {logo: data.logo}, {
+        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/update/${id}`, {logo: data.logo, theme: color}, {
             headers: {
                 Authorization: `Bearer ${session.token}`
             }
         }).then(res => {
-            toast("Logo mis à jour !", {type: "success"})
+            toast("Établissement mis à jour !", {type: "success"})
             setChange(!change)
             setSettings(false)
             reset({})
@@ -212,7 +216,7 @@ const Etablissement = () => {
             {settings || displayQRCode ? <div className={styles.shadow} onClick={() => settings ? setSettings(false) : setDisplayQRCode(false)}></div> : null}
             {settings && <div className={styles.popup}>
                 <h2>Paramètres</h2>
-                <MuiColorInput value={color} onChange={upateTheme} className={styles.colorPicker} />
+                <MuiColorInput value={color} onChange={(theme) => setColor(theme)} className={styles.colorPicker} />
                 <form onSubmit={handleSubmit(updateParams)}>
                     <input type="text" defaultValue={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
                     <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
@@ -269,21 +273,29 @@ const Etablissement = () => {
                         <p style={{color: data ? data.theme : color}} className={styles.addLine} onClick={() => setAddLine(section.id_section)}>Ajouter une ligne</p>
                         {section.lines.length > 0 ? section.lines.map((line, index) => (
                             <div className={styles.line2} style={{marginLeft: "25px"}} key={index}>
-                                {line.id_line === edit ? <form onSubmit={handleSubmit((data) => editLine(data, line.id_line))}>
-                                    <input type="text" defaultValue={line.name} {...register("name")} />
-                                    <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
-                                    <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
-                                    <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
-                                </form> : <p>{line.name} <b style={{color: data ? data.theme : color}}>{line.price && `- ${line.price}€`}</b></p>}
-                                <div className={styles.right}>
-                                    <p className={styles.edit} onClick={() => setEdit(line.id_line)}>Modifier</p>
-                                    <p className={styles.delete} onClick={() => deleteLine(line.id_line)}>Supprimer</p>
-                                </div>
+                                {line.id_line === edit ?
+                                    <form onSubmit={handleSubmit((data) => editLine(data, line.id_line))}>
+                                        <input type="text" defaultValue={line.name} {...register("name")} />
+                                        <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
+                                        <input type="number" defaultValue={line.rank} {...register("rank")} placeholder="Prix ..." />
+                                        <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
+                                        <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
+                                    </form>
+                                : 
+                                    <>
+                                        <p>{line.name} <b style={{color: data ? data.theme : color}}>{line.price && `- ${line.price}€`}</b></p>
+                                        <div className={styles.right}>
+                                            <p className={styles.edit} onClick={() => setEdit(line.id_line)}>Modifier</p>
+                                            <p className={styles.delete} onClick={() => deleteLine(line.id_line)}>Supprimer</p>
+                                        </div>
+                                    </>
+                                }
                             </div>
                         )) : null}
                         {section.id_section === addLine && <form className={styles.addLineStyle} onSubmit={handleSubmit(addLineFunction)}>
                             <input type="text" {...register('name')} placeholder="Nom de la ligne ..." />
                             <input type="text" {...register("price")} placeholder="Prix ..." />
+                            <input type="number" {...register("rank")} placeholder="Ordre d'apparition ..." />
                             <input type="submit" value="Ajouter" style={{backgroundColor: data ? data.theme : color}} />
                             <p onClick={() => {setAddLine(null); reset({})}}>Annuler</p>
                         </form>}
