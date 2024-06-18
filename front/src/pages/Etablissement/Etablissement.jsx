@@ -37,8 +37,13 @@ const Etablissement = () => {
     useEffect(() => {
         (async () => {
             const data = await axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`)
-            setData(data.data.data)
-            setColor(data.data.data.theme)
+            const user = JSON.parse(localStorage.getItem("session"))
+            if(user.id_user === data.owner.id_user){
+                setData(data.data.data)
+                setColor(data.data.data.theme)
+            } else{
+                window.location.href = "/notFound"
+            }
         })()
     }, [isAddSection, addLine, change, edit, editSection])
 

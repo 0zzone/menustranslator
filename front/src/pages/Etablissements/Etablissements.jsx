@@ -39,6 +39,7 @@ const Etablissements = () => {
                         Authorization: `Bearer ${session.token}`
                     }
                 })
+                console.log(userDB)
                 setUser(userDB.data.data)
                 setLoading(false)
             } catch(e) {

@@ -54,11 +54,12 @@
     column-gap: 10px;
 }
 
+
 .tick {
     color: #06C;
 }
 
-.left > a {
+.try {
     background-color: #06c;
     color: white;
     padding: 7px;
@@ -68,12 +69,32 @@
     text-decoration: none;
     display: block;
     width: max-content;
-    margin-top: 30px;
     font-size: 20px;
 }
 
-.left > a:hover {
+.try:hover {
     opacity: .9;
+}
+
+.left > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 30px;
+    column-gap: 20px;
+}
+
+.demo {
+    background-color: #f1f1f1;
+    color: #06c;
+    padding: 7px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-decoration: none;
+    display: block;
+    width: max-content;
+    font-size: 20px;
 }
 
 .img{
@@ -253,15 +274,21 @@ footer > a {
         font-size: 45px;
     }
 
-    .left > a {
-        margin: auto;
-        margin-top: 30px;
-        margin-bottom: 30px;
+    .try, .demo {
+        width: 100%;
     }
 
     .left > h1 {
         width: 80%;
         margin: auto;
+    }
+
+    .left > div {
+        flex-direction: column;
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        width: 70%;
     }
 
     .img {
