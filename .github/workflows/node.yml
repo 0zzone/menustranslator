@@ -24,6 +24,7 @@ jobs:
           --build-arg VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }} \
           --build-arg VITE_SILVER_PRICE=${{ secrets.VITE_SILVER_PRICE }} \
           --build-arg VITE_GOLD_PRICE=${{ secrets.VITE_GOLD_PRICE }} \
+          --build-arg VITE_OPENAI_API_KEY=${{ secrets.VITE_OPENAI_API_KEY }} \
           ./front
 
       - name: Push Front
