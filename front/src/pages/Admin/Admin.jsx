@@ -84,7 +84,7 @@ const Admin = () => {
                 </div>
                 <div className={styles.data}>
                     {data && data.length > 0 && data.map((user, index) => (
-                        <div key={index}>
+                        <div key={index} className={clsx(user.role === "ADMIN" && styles.adminLine)}>
                             <div>
                                 <h2>{user.firstName} {user.lastName}</h2>
                                 <p>{user.email}</p>

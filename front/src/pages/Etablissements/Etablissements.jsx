@@ -7,6 +7,9 @@ import Skeleton from '@mui/material/Skeleton';
 import { loadStripe } from '@stripe/stripe-js';
 import clsx from "clsx"
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+import { MdEdit } from "react-icons/md";
+import bcrypt from "bcryptjs-react";
+var salt = bcrypt.genSaltSync(10);
 
 
 const Etablissements = () => {
@@ -17,6 +20,7 @@ const Etablissements = () => {
     const [user, setUser] = useState(null)
     const [change, setChange] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
 
     const {
         register,
@@ -111,13 +115,82 @@ const Etablissements = () => {
         window.location.href = "/"
     }
 
+    const updateInformations = (data) => {
+        if(data.firstName === "" || data.lastName === ""){
+            toast("Informations non complètes !", {type: "error"})
+            return
+        }
+
+        if(data.old_password !== ""){
+            if(!bcrypt.compareSync(data.old_password, user.password)){
+                toast("L'ancien mot de passe n'est pas correct", {type: "error"})
+                return
+            }
+    
+            if(data.new_password.length < 8){
+                toast("Le mot de passe doit faire au moins 8 caractères", {type: "error"})
+                return
+            }
+
+            if(data.new_password !== data.confirmation_new_password){
+                toast("Les deux mots de passes ne correspondent pas", {type:"error"})
+                return
+            }
+
+        }
+
+        let obj = {
+            id_user: user.id_user,
+            firstName: data.firstName,
+            lastName: data.lastName,
+        }
+
+        if(data.old_password !== ""){
+            obj = {...obj, password: bcrypt.hashSync(data.new_password, salt)}
+        }
+
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.post(`${import.meta.env.VITE_API_URL}/users/update`, obj, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
+            toast("Informations mises à jour !", {type:"success"})
+            setIsOpen(false)
+            setChange(!change)
+        }).catch(e => {
+            toast(e.response.data.error, {type: "error"})
+        })
+        
+
+    }
+
 
     return(
         <div className={styles.container}>
 
+            {isOpen && <>
+                <div className={styles.shadow} onClick={() => setIsOpen(false)}></div>
+                <div className={styles.must}>
+                    <h2>Mes informations</h2>
+                    <form onSubmit={handleSubmit(updateInformations)} className={styles.formUpdate}>
+                        <input {...register("firstName")} type="text" placeholder="Prénom" defaultValue={user.firstName} />
+                        <input {...register("lastName")} type="text" placeholder="Nom" defaultValue={user.lastName} />
+                        <input {...register("email")} type="email" placeholder="Adresse email" defaultValue={user.email} disabled />
+                        <input {...register("old_password")} type="password" placeholder="Ancien mot de passe" />
+                        <input {...register("new_password")} type="password" placeholder="Nouveau mot de passe" />
+                        <input {...register("confirmation_new_password")} type="password" placeholder="Confirmation du nouveau mot de passe" />
+                        <input type="submit" value="Enregister" />
+                    </form>
+                </div>
+            </>}
+
             {user ? <div className={styles.top}>
                 <h1>Bonjour, {user.firstName} 👋</h1>
-                <p onClick={logout}>Déconnexion</p>
+                <div>
+                    <p onClick={logout}>Déconnexion</p>
+                    <MdEdit className={styles.settings} onClick={() => setIsOpen(true)} />
+                </div>
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
             <form onSubmit={handleSubmit(onSubmit)}>

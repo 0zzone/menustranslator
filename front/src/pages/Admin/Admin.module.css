@@ -52,6 +52,10 @@
     margin-top: 20px;
 }
 
+.adminLine {
+    border: 2px solid #ffdc69 !important;
+}
+
 .data > div:hover {
     background-color: #f8f8f8;
 }

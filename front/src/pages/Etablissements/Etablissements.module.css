@@ -20,19 +20,33 @@
     font-size: 50px;
 }
 
-.top > p {
+.top > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.top > div > p {
     color: white;
     background-color: rgb(208, 88, 88);
     width: max-content;
     padding: 7px;
     border-radius: 10px;
     cursor: pointer;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 
-.top > p:hover {
+.top > div > p:hover {
     opacity: .9;
+}
+
+.settings {
+    width: 20px;
+    height: 20px;
+    background-color: #F1F1F1;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 form{
@@ -104,6 +118,7 @@ h2 {
     left: 0;
     top: 0;
     position: absolute;
+    cursor: pointer;
 }
 
 .must {
@@ -158,4 +173,18 @@ h2 {
 
 .selected  {
     background-color: #f4f4f4;
+}
+
+.formUpdate{
+    width: 70%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.formUpdate > input {
+    display: block;
+    width: 100% !important;
+    margin: 0 !important;
+    margin-top: 10px !important;
+    box-sizing: border-box;
 }
