@@ -15,8 +15,11 @@ const Welcome = () => {
             <div className={styles.first}>
                 <div className={styles.left}>
                     <h1>Traduire son menu n{"'"}aura jamais été aussi simple</h1>
-                    <p>Éditez vos menus, nous nous chargeons de les traduire.</p>
-                    <a href="/register">Essayer dès maintenant !</a>
+                    <p>Éditez vos menus, une Intelligence Artificielle se charge de les traduire !</p>
+                    <div>
+                        <a href="/register" className={styles.try}>Essayer dès maintenant !</a>
+                        <p className={styles.demo}>Demander une démo</p>
+                    </div>
                 </div>
                 <img src="/resto.jpg" alt="Illustration" className={styles.img} />
             </div>

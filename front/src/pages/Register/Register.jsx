@@ -52,6 +52,7 @@ const Register = () => {
 
     return(
         <div className={styles.container}>
+            <a href="/">&#x2190; Accueil</a>
             <div>
                 <h1>Inscription</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>

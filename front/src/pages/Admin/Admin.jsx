@@ -43,7 +43,6 @@ const Admin = () => {
                 Authorization: `Bearer ${session.token}`
             }
         }).then(res => {
-            console.log(res.data.data)
             setData(res.data.data)
             setLoading(false)
         }).catch(e => {
@@ -51,6 +50,7 @@ const Admin = () => {
                 window.location.href = "/etablissements"
             } else{
                 toast(e.response.data.error, {type: "error"})
+                localStorage.removeItem("session")
             }
         })
     }, [change])

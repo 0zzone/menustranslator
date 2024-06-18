@@ -11,6 +11,14 @@
     font-family: poppins;
 }
 
+.container > a {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    top: 20px;
+    left: 25px;
+}
+
 .container > div {
     position: absolute;
     top: 50%;
