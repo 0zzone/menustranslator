@@ -120,13 +120,31 @@ router.post("/search", authenticateToken, async (req, res) => {
             }
         })
 
-        console.log(resultSearch)
-
         return res.status(200).json({data: resultSearch})
 
     } catch(e) {
         return res.status(400).json({error: "Une erreur s'est produite"})
     }
+})
+
+router.post("/update", authenticateToken, async (req, res) => {
+
+    const user = req.body
+
+    try {
+        const updated_user = await prisma.user.update({
+            where: {
+                id_user: parseInt(user.id_user)
+            },
+            data: user
+        })
+
+        return res.status(200).json({data: updated_user})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+
 })
 
 
