@@ -17,6 +17,12 @@ const filePath = path.join(__dirname, 'welcome.html');
 
 
 router.post("/send", async (req, res) => {
+
+    console.table({
+        user: process.env.EMAIL_GOOGLE,
+        pass: process.env.EMAIL_PASS
+    })
+
     const {to} = req.body
 
     fs.readFile(filePath, 'utf8', (err, data) => {
