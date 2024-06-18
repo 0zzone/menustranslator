@@ -4,10 +4,11 @@ import axios from "axios"
 import {toast} from "react-toastify"
 import { useEffect, useState } from "react"
 import Skeleton from '@mui/material/Skeleton';
+import clsx from "clsx"
 
 const Admin = () => {
 
-    if(JSON.parse(localStorage.getItem("session")).user.role !== "ADMIN") window.location.href = "/"
+    // if(JSON.parse(localStorage.getItem("session")).user.role !== "ADMIN") window.location.href = "/"
 
     const {
         register,
@@ -17,30 +18,17 @@ const Admin = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [change, setChange] = useState(false)
-    const [usersNumber, setUsersNumber] = useState(0)
-    
-    const getNumberUsers = (data) => {
-        let tab = []
-        for(let i=0; i<data.length; i++) {
-            if(!tab.includes(data[i].owner.email)){
-                tab.push(data[i].owner.email)
-            }
-        }
-        setUsersNumber(tab.length)
-    }
-
 
     const onSubmit = (data) => {
         const {name} = data
         setLoading(true)
         const session = JSON.parse(localStorage.getItem("session"))
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name}, {
+        axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name}, {
             headers: {
                 Authorization: `Bearer ${session.token}`
             }
         }).then(res => {
             setData(res.data.data)
-            getNumberUsers(res.data.data)
             setLoading(false)
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})
@@ -50,19 +38,17 @@ const Admin = () => {
     useEffect(() => {
         setLoading(true)
         const session = JSON.parse(localStorage.getItem("session"))
-        axios.post(`${import.meta.env.VITE_API_URL}/etablissements/search`, {name: ""}, {
+        axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name: ""}, {
             headers: {
                 Authorization: `Bearer ${session.token}`
             }
         }).then(res => {
+            console.log(res.data.data)
             setData(res.data.data)
-            getNumberUsers(res.data.data)
             setLoading(false)
         }).catch(e => {
-            console.log(e)
             if(e.response.status === 403){
-                localStorage.removeItem("session")
-                window.location.href = "/login"
+                window.location.href = "/etablissements"
             } else{
                 toast(e.response.data.error, {type: "error"})
             }
@@ -95,31 +81,23 @@ const Admin = () => {
             {!loading ? <div className={styles.dataContainer}>
                 <div className={styles.top}>
                     <p>{data.length === 0 ? "Aucun résultat" : data.length === 1 ? "1 résultat" : `${data.length} résultats`}</p>
-                    <p>{usersNumber === 0 ? "Aucun utilisateur" : usersNumber === 1 ? "1 utilisateur" : `${usersNumber} utilisateurs`}</p>
                 </div>
                 <div className={styles.data}>
-                    {data.map((resto, index) => (
+                    {data && data.length > 0 && data.map((user, index) => (
                         <div key={index}>
                             <div>
-                                <h2>{resto.name}</h2>
-                                <p>by {resto.owner.firstName} {resto.owner.lastName} {`(${resto.owner.email})`}</p>
+                                <h2>{user.firstName} {user.lastName}</h2>
+                                <p>{user.email}</p>
+                                <p className={styles.join}><span>Restaurants:</span> {user.etablissements.map(etablissement => etablissement.name).join(", ")}</p>
                             </div>
                             <div className={styles.right}>
                                 <div>
                                     <p>Silver</p>
-                                    <div
-                                        style={resto.owner.subscription === import.meta.env.VITE_SILVER_PRICE ? {backgroundColor: "#333"} : undefined}
-                                        onClick={() => changeSubscription(resto.owner.id_user, import.meta.env.VITE_SILVER_PRICE, resto.owner.subscription)}
-                                    >
-                                    </div>
+                                    <div className={clsx(styles.sub, user.subscription === import.meta.env.VITE_SILVER_PRICE && styles.selected)} onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}></div>
                                 </div>
                                 <div>
                                     <p>Gold</p>
-                                    <div
-                                        style={resto.owner.subscription === import.meta.env.VITE_GOLD_PRICE ? {backgroundColor: "#333"} : undefined}
-                                        onClick={() => changeSubscription(resto.owner.id_user, import.meta.env.VITE_GOLD_PRICE, resto.owner.subscription)}
-                                    >
-                                    </div>
+                                    <div className={clsx(styles.sub, user.subscription === import.meta.env.VITE_GOLD_PRICE && styles.selected)} onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}></div>
                                 </div>
                             </div>
                         </div>

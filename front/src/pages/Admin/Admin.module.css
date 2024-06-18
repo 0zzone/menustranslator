@@ -67,19 +67,32 @@
     font-style: italic;
 }
 
+.join {
+    color: grey !important;
+    font-style: normal !important;
+}
+
+.join > span {
+    text-decoration: underline;
+}
+
 .right {
     display: flex;
     justify-content: space-between;
     column-gap: 30px;
 }
 
-.right > div > div {
+.sub {
     width: 15px;
     height: 15px;
     margin: auto;
     border-radius: 50%;
     cursor: pointer;
     border: .5px solid #333;
+}
+
+.selected {
+    background-color: #333;
 }
 
 .right > div > p{

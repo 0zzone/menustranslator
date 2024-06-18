@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form"
 import axios from "axios"
 import { toast } from "react-toastify"
 import bcrypt from "bcryptjs-react";
-import { useState } from "react";
-import clsx from "clsx"
 var salt = bcrypt.genSaltSync(10);
 
 const Register = () => {
@@ -37,6 +35,9 @@ const Register = () => {
             }
             axios.post(`${import.meta.env.VITE_API_URL}/users/create`, obj).then(res => {
                 localStorage.setItem("session", JSON.stringify({user: res.data.data, token: res.data.token}))
+                axios.post(`${import.meta.env.VITE_API_URL}/email/send`, {
+                    to: obj.email
+                })
                 window.location.href = "/etablissements"
             }).catch(e => {
                 toast(e.response.data.error, {type: "error"})

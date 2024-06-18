@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
             }
         })
     
-        const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '10h' });
+        const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '10h' });
 
         return res.status(200).json({data: user, token})
 
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if(isPasswordValid) {
-            const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '10h' });
             return res.status(200).json({data: user, token })
         } else {
             return res.status(400).json({error: "Email ou mot de passe incorect"})
@@ -93,6 +93,36 @@ router.post("/update/:id_user/:price_id", authenticateToken, async (req, res) =>
         })
     
         return res.status(200).json({data: user})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
+router.post("/search", authenticateToken, async (req, res) => {
+
+    if(req.user.role !== "ADMIN") {
+        return res.status(403).json({error: "Vous n'êtes pas autorisé à accéder à cette page !"})
+    }
+
+    const {name} = req.body
+    try {
+        const resultSearch = await prisma.user.findMany({
+            where: {
+                OR: [
+                    {email: {contains: name}},
+                    {firstName: {contains: name}},
+                    {lastName: {contains: name}},
+                ]
+            },
+            include: {
+                etablissements: true
+            }
+        })
+
+        console.log(resultSearch)
+
+        return res.status(200).json({data: resultSearch})
 
     } catch(e) {
         return res.status(400).json({error: "Une erreur s'est produite"})
