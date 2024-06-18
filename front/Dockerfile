@@ -20,6 +20,9 @@ ENV VITE_SILVER_PRICE=${VITE_SILVER_PRICE}
 ARG VITE_GOLD_PRICE
 ENV VITE_GOLD_PRICE=${VITE_GOLD_PRICE}
 
+ARG VITE_OPENAI_API_KEY
+ENV VITE_OPENAI_API_KEY=${VITE_OPENAI_API_KEY}
+
 RUN npm run build
 
 # Stage 2: Serve the app using a lightweight node server like serve
