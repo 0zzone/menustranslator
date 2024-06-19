@@ -72,7 +72,7 @@
     font-size: 20px;
 }
 
-.try:hover {
+.try:hover, .demo:hover {
     opacity: .9;
 }
 
@@ -95,6 +95,7 @@
     display: block;
     width: max-content;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .img{
@@ -289,6 +290,7 @@ footer > a {
         margin-top: 50px;
         margin-bottom: 30px;
         width: 70%;
+        row-gap: 15px;
     }
 
     .img {

@@ -44,6 +44,7 @@ const Etablissements = () => {
                 setLoading(false)
             } catch(e) {
                 localStorage.removeItem('session')
+                window.location.href = "/"
             }
         })()
     }, [change])

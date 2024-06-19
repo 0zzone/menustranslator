@@ -36,6 +36,7 @@ const Register = () => {
             axios.post(`${import.meta.env.VITE_API_URL}/users/create`, obj).then(res => {
                 localStorage.setItem("session", JSON.stringify({user: res.data.data, token: res.data.token}))
                 axios.post(`${import.meta.env.VITE_API_URL}/email/send`, {
+                    typeMail: "welcome",
                     to: obj.email
                 })
                 window.location.href = "/etablissements"
