@@ -16,11 +16,16 @@ import Success from './pages/Success/Success';
 import Admin from './pages/Admin/Admin';
 import Mobile from './pages/Mobile/Mobile';
 import NotFound from './pages/NotFound/NotFound';
+import Demo from './pages/Demo/Demo';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Welcome />,
+  },
+  {
+    path: "/demo",
+    element: <Demo />
   },
   {
     path: "/login",

@@ -18,7 +18,7 @@ const Welcome = () => {
                     <p>Éditez vos menus, une Intelligence Artificielle se charge de les traduire !</p>
                     <div>
                         <a href="/register" className={styles.try}>Essayer dès maintenant !</a>
-                        <p className={styles.demo}>Demander une démo</p>
+                        <a href="/demo" className={styles.demo}>Demander une démo</a>
                     </div>
                 </div>
                 <img src="/resto.jpg" alt="Illustration" className={styles.img} />
@@ -52,7 +52,7 @@ const Welcome = () => {
                     </p>
                     <p className={styles.step}>
                         <FaRegCheckCircle className={styles.tick} />
-                        Exposez le à vos clients
+                        Exposez-le à vos clients
                     </p>
                     <p className={styles.step}>
                         <FaRegCheckCircle className={styles.tick} />
