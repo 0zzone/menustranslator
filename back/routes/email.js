@@ -54,7 +54,7 @@ router.post("/send", async (req, res) => {
 
             const mailOptions = {
                 from: process.env.EMAIL_GOOGLE,
-                to: "dev.matteobonnett@gmail.com",
+                to: process.env.EMAIL_GOOGLE,
                 subject: 'Demande de démo !',
                 html: filledHTML
             };
