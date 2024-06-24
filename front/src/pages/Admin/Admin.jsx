@@ -8,8 +8,6 @@ import clsx from "clsx"
 
 const Admin = () => {
 
-    // if(JSON.parse(localStorage.getItem("session")).user.role !== "ADMIN") window.location.href = "/"
-
     const {
         register,
         handleSubmit,

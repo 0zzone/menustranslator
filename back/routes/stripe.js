@@ -18,19 +18,21 @@ router.post('/create-checkout-session', authenticateToken, async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.FRONTEND_DOMAIN}/success/${id_user}/${price_id}`,
+      success_url: `${process.env.FRONTEND_DOMAIN}/success/${price_id}`,
       cancel_url: `${process.env.FRONTEND_DOMAIN}/register`,
     });
 
   res.json({ id: session.id });
 });
 
-router.post('/update/:id_user/:price_id', authenticateToken, async (req, res) => {
-  const {id_user, price_id} = req.params
+router.post('/update/:price_id', authenticateToken, async (req, res) => {
+  const {price_id} = req.params
+
   try {
+
     const user = await prisma.user.update({
       where: {
-        id_user: parseInt(id_user)
+        id_user: req.user.id_user
       },
       data: {
         subscription: price_id

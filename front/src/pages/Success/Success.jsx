@@ -7,12 +7,12 @@ const Success = () => {
 
     if(window.innerWidth < 1024) window.location.href = "/mobile"
 
-    const {price_id, id_user} = useParams();
+    const {price_id} = useParams();
 
     useEffect(() => {
         (async () => {
             const session = JSON.parse(localStorage.getItem("session"))
-            await axios.post(`${import.meta.env.VITE_API_URL}/users/update/${id_user}/${price_id}`, {}, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${price_id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${session.token}`
                 }

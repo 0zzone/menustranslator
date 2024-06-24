@@ -25,8 +25,6 @@ const Etablissements = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
         reset
     } = useForm()
 
@@ -34,12 +32,11 @@ const Etablissements = () => {
         (async () => {
             try {
                 const session = JSON.parse(localStorage.getItem("session"))
-                const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/get/${session.user.email}`, {
+                const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
                     headers: {
                         Authorization: `Bearer ${session.token}`
                     }
                 })
-                console.log(userDB)
                 setUser(userDB.data.data)
                 setLoading(false)
             } catch(e) {

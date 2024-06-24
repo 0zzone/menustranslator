@@ -36,14 +36,17 @@ const Etablissement = () => {
 
     useEffect(() => {
         (async () => {
-            const data = await axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`)
             const user = JSON.parse(localStorage.getItem("session"))
-            if(user.id_user === data.owner.id_user){
-                setData(data.data.data)
-                setColor(data.data.data.theme)
-            } else{
+            axios.get(`${import.meta.env.VITE_API_URL}/etablissements/admin/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            }).then(res => {
+                setData(res.data.data)
+                setColor(res.data.data.theme)
+            }).catch(e => {
                 window.location.href = "/notFound"
-            }
+            })
         })()
     }, [isAddSection, addLine, change, edit, editSection])
 
