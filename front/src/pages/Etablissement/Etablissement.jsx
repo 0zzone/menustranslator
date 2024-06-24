@@ -45,6 +45,7 @@ const Etablissement = () => {
                 setData(res.data.data)
                 setColor(res.data.data.theme)
             }).catch(e => {
+                localStorage.removeItem("session")
                 window.location.href = "/notFound"
             })
         })()

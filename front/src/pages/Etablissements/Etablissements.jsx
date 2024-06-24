@@ -10,6 +10,9 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 import { MdEdit } from "react-icons/md";
 import bcrypt from "bcryptjs-react";
 var salt = bcrypt.genSaltSync(10);
+import { RiCopperCoinFill } from "react-icons/ri";
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 
 
 const Etablissements = () => {
@@ -21,6 +24,8 @@ const Etablissements = () => {
     const [change, setChange] = useState(false)
     const [loading, setLoading] = useState(true)
     const [isOpen, setIsOpen] = useState(false)
+    const [subPopup, setSubPopup] = useState(false)
+    const [confirm, setConfirm] = useState(0)
 
     const {
         register,
@@ -164,9 +169,81 @@ const Etablissements = () => {
 
     }
 
+    const updateSub = () => {
+
+        if(confirm === 1){
+            const obj = {
+                typeMail: "updateSub",
+                data: {
+                    email: user.email,
+                    plan: selectedPlan === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"
+                }
+            }
+    
+            axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
+                toast("Une demande a été envoyée pour vote changement d'abonnement !", {type:"success"})
+                setConfirm(0)
+                setSubPopup(false)
+            }).catch(e => {
+                toast(e.response.data.error, {type: "error"})
+            })
+        } else {
+            setConfirm(confirm + 1)
+        }
+
+    }
+
+    const resilierSub = () => {
+
+        if(confirm === 1){
+
+            const obj = {
+                typeMail: "resilierSub",
+                data: {
+                    email: user.email,
+                }
+            }
+
+            axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
+                toast("Une demande a été envoyée pour vote résiliation !", {type:"success"})
+                setConfirm(0)
+                setSubPopup(false)
+            }).catch(e => {
+                toast(e.response.data.error, {type: "error"})
+            })
+
+        } else {
+            setConfirm(confirm + 1)
+        }
+        
+    }
 
     return(
         <div className={styles.container}>
+
+            {subPopup && <>
+                <div className={styles.shadow} onClick={() => setSubPopup(false)}></div>
+                <div className={styles.must}>
+                    <h2>Abonnement actuel <u>{user.subscription === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"}</u></h2>
+                    <div>
+                        {plans.map((plan, index) => (
+                            <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
+                                <div>
+                                    <h1>{plan.name}</h1>
+                                    <p>{plan.description}</p>
+                                </div>
+                                <h2>{plan.price}€ <b>/mois</b></h2>
+                            </div>
+                        ))}
+                    </div>
+                    <p className={styles.infos}>Le changement ne se fera pas automatiquement, nous nous chargeons de la changer !</p>
+                    <div>
+                        <p className={styles.update} onClick={updateSub}>{confirm === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
+                        <p className={styles.resilier} onClick={resilierSub}>{confirm === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
+                    </div>
+                    
+                </div>
+            </>}
 
             {isOpen && <>
                 <div className={styles.shadow} onClick={() => setIsOpen(false)}></div>
@@ -189,6 +266,11 @@ const Etablissements = () => {
                 <div>
                     <p onClick={logout}>Déconnexion</p>
                     <MdEdit className={styles.settings} onClick={() => setIsOpen(true)} />
+                    <Tooltip onClick={() => setSubPopup(true)} title={user.subscription === import.meta.env.VITE_GOLD_PRICE ? "Abonnement Gold" : "Abonnement Silver"}>
+                        <IconButton>
+                            <RiCopperCoinFill className={styles.coin} style={user.subscription === import.meta.env.VITE_GOLD_PRICE ? {color: "gold"} : {color: "grey"}} />
+                        </IconButton>
+                    </Tooltip>
                 </div>
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}

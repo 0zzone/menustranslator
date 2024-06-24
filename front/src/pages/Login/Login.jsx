@@ -2,7 +2,6 @@ import styles from "./Login.module.css"
 import { useForm } from "react-hook-form"
 import axios from "axios"
 import {toast} from "react-toastify"
-import bcrypt from "bcryptjs-react"
 
 const Login = () => {
 
@@ -11,13 +10,11 @@ const Login = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        formState: { errors },
     } = useForm()
 
     const onSubmit = (data) => {
         axios.post(`${import.meta.env.VITE_API_URL}/users/login`, data).then(res => {
-            localStorage.setItem("session", JSON.stringify({user: res.data.data, token: res.data.token}))
+            localStorage.setItem("session", JSON.stringify({token: res.data.token}))
             window.location.href = "/etablissements"
         }).catch(e => {
             toast(e.response.data.error, {type: "error"})

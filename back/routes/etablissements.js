@@ -90,7 +90,6 @@ router.get("/admin/:id", authenticateToken, async (req, res) => {
             }
         })
 
-
         if(!user.etablissements.map(eta => eta.id_etablissement).includes(parseInt(id))) {
             return res.status(400).json({error: "Établissement introuvable !"})
         }
