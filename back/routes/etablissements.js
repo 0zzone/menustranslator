@@ -75,6 +75,54 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+router.get("/admin/:id", authenticateToken, async (req, res) => {
+
+    const {id} = req.params
+
+    try{
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id_user: parseInt(req.user.id_user)
+            },
+            include: {
+                etablissements: true
+            }
+        })
+
+        if(!user.etablissements.map(eta => eta.id_etablissement).includes(parseInt(id))) {
+            return res.status(400).json({error: "Établissement introuvable !"})
+        }
+
+        const data = await prisma.etablissement.findUnique({
+            where: {
+              id_etablissement: parseInt(id)
+            },
+            include: {
+                sections: {
+                    include: {
+                        lines: {
+                            orderBy: {
+                                rank: "asc" 
+                            }
+                        }
+                    },
+                    orderBy: {
+                       rank: "asc" 
+                    }
+                }
+            },
+        })
+
+        if(data !== null)
+            return res.status(200).json({data})
+        return res.status(404).json({error: "Aucun établissement n'a été trouvé !"})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
 
 router.post("/update/:id_etablissement", authenticateToken, async (req, res) => {
     const {id_etablissement} = req.params

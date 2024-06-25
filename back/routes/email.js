@@ -67,6 +67,61 @@ router.post("/send", async (req, res) => {
             });
         });
 
+    } else if(typeMail === "updateSub") {
+
+        const filePath = path.join(__dirname, 'updateSub.html');
+
+        fs.readFile(filePath, 'utf8', (err, html) => {
+            if (err) {
+                return res.status(400).json({ error: "Une erreur est survenue" });
+            }
+
+            const filledHTML = html
+                .replace('{{MAIL}}', data.email)
+                .replace('{{PLAN}}', data.plan)
+
+            const mailOptions = {
+                from: process.env.EMAIL_GOOGLE,
+                to: process.env.EMAIL_GOOGLE,
+                subject: 'Mise à jour de l\'abonnement !',
+                html: filledHTML
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return res.status(400).json({ error: "Une erreur est survenue" });
+                }
+                return res.status(200).json({ message: "Une demande a été envoyée pour vote changement d'abonnement !" });
+            });
+        });
+
+    } else if(typeMail === "resilierSub") {
+
+        const filePath = path.join(__dirname, 'resilierSub.html');
+
+        fs.readFile(filePath, 'utf8', (err, html) => {
+            if (err) {
+                return res.status(400).json({ error: "Une erreur est survenue" });
+            }
+
+            const filledHTML = html
+                .replace('{{MAIL}}', data.email)
+
+            const mailOptions = {
+                from: process.env.EMAIL_GOOGLE,
+                to: process.env.EMAIL_GOOGLE,
+                subject: 'Résiliation de l\'abonnement !',
+                html: filledHTML
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return res.status(400).json({ error: "Une erreur est survenue" });
+                }
+                return res.status(200).json({ message: "Une demande a été envoyée pour vote changement d'abonnement !" });
+            });
+        });
+
     }
 
 })

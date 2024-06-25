@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
             }
         })
     
-        const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '10h' });
+        const token = jwt.sign({ email: user.email, role: user.role, id_user: user.id_user }, JWT_SECRET, { expiresIn: '10h' });
 
         return res.status(200).json({data: user, token})
 
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if(isPasswordValid) {
-            const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '10h' });
+            const token = jwt.sign({ email: user.email, role: user.role, id_user: user.id_user }, JWT_SECRET, { expiresIn: '10h' });
             return res.status(200).json({data: user, token })
         } else {
             return res.status(400).json({error: "Email ou mot de passe incorect"})
@@ -58,40 +58,18 @@ router.post("/login", async (req, res) => {
     }
 })
 
-router.get('/get/:email', authenticateToken, async (req, res) => {
-    const {email} = req.params
+router.get('/me', authenticateToken, async (req, res) => {
+
     try{
         const user = await prisma.user.findUnique({
             where: {
-                email
+                email: req.user.email
             },
             include: {
                 etablissements: true
             }
         })
 
-
-        return res.status(200).json({data: user})
-
-    } catch(e) {
-        return res.status(400).json({error: "Une erreur s'est produite"})
-    }
-})
-
-router.post("/update/:id_user/:price_id", authenticateToken, async (req, res) => {
-
-    const {id_user, price_id} = req.params
-
-    try {
-        const user = await prisma.user.update({
-            where: {
-                id_user: parseInt(id_user)
-            },
-            data: {
-                subscription: price_id
-            }
-        })
-    
         return res.status(200).json({data: user})
 
     } catch(e) {
@@ -106,6 +84,7 @@ router.post("/search", authenticateToken, async (req, res) => {
     }
 
     const {name} = req.body
+
     try {
         const resultSearch = await prisma.user.findMany({
             where: {

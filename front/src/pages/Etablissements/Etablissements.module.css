@@ -40,6 +40,11 @@
     opacity: .9;
 }
 
+.coin {
+    width: 30px;
+    height: auto;
+}
+
 .settings {
     width: 20px;
     height: 20px;
@@ -119,6 +124,7 @@ h2 {
     top: 0;
     position: absolute;
     cursor: pointer;
+    z-index: 10;
 }
 
 .must {
@@ -130,6 +136,7 @@ h2 {
     background-color: white;
     padding: 50px;
     border-radius: 10px;
+    z-index: 11;
 }
 
 .must > h2 {
@@ -147,6 +154,35 @@ h2 {
     display: block;
     margin: auto;
     color: white;
+    cursor: pointer;
+}
+
+.infos {
+    color: silver !important;
+    background: none !important;
+    width: 70% !important;
+}
+
+.resilier, .update{
+    margin: 0;
+    color: white;
+    padding: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.resilier:hover, .update:hover {
+    opacity: .9;
+}
+
+.resilier{
+    background-color: #e33d3d;
+}
+
+.update {
+    background-color: #46ad1d;
 }
 
 .must > p:hover {
@@ -169,6 +205,7 @@ h2 {
     padding-right: 20px;
     padding: 20px;
     width: 220px;
+    cursor: pointer;
 }
 
 .selected  {
