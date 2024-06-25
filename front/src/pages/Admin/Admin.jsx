@@ -21,6 +21,9 @@ const Admin = () => {
         const {name} = data
         setLoading(true)
         const session = JSON.parse(localStorage.getItem("session"))
+        if(!session.token){
+            window.location.href = "/"
+        }
         axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name}, {
             headers: {
                 Authorization: `Bearer ${session.token}`
@@ -29,6 +32,7 @@ const Admin = () => {
             setData(res.data.data)
             setLoading(false)
         }).catch(e => {
+            window.location.href = "/"
             toast(e.response.data.error, {type: "error"})
         })
     }
