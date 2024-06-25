@@ -154,10 +154,8 @@ const Etablissements = () => {
         }
 
         const session = JSON.parse(localStorage.getItem("session"))
-        axios.post(`${import.meta.env.VITE_API_URL}/users/update`, obj, {
-            headers: {
-                Authorization: `Bearer ${session.token}`
-            }
+        axios.post(`${import.meta.env.VITE_API_URL}/users/update`, {
+            user: obj
         }).then(res => {
             toast("Informations mises à jour !", {type:"success"})
             setIsOpen(false)

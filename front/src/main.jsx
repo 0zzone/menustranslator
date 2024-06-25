@@ -17,6 +17,8 @@ import Admin from './pages/Admin/Admin';
 import Mobile from './pages/Mobile/Mobile';
 import NotFound from './pages/NotFound/NotFound';
 import Demo from './pages/Demo/Demo';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ForgotPassword/ResetPassword/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,13 @@ const router = createBrowserRouter([
   {
     path: "/notFound",
     element: <NotFound />
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />
+  }, {
+    path: "/forgot-password/:id_user/:token",
+    element: <ResetPassword />
   }
 ]);
 
