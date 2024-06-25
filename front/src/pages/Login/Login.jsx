@@ -30,6 +30,7 @@ const Login = () => {
                     <input type="email" {...register("email")} placeholder="Adresse e-mail ..." />
                     <input type="password" {...register("password")} placeholder="Mot de passe ..." />
                     <input type="submit" value="Se connecter" />
+                    <a href="/forgot-password">J{"'"}ai oublié mon mot de passe ?</a>
                 </form>
                 <a href="/register">Pas encore inscrit ?</a>
             </div>

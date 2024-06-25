@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 const authenticateToken = require("./middleware")
 const JWT_SECRET = process.env.JWT_SECRET;
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
 router.post('/create', async (req, res) => {
     const {email, firstName, lastName, password, subscription} = req.body
@@ -106,19 +107,44 @@ router.post("/search", authenticateToken, async (req, res) => {
     }
 })
 
-router.post("/update", authenticateToken, async (req, res) => {
+router.post("/update", async (req, res) => {
 
-    const user = req.body
+    const {user, token} = req.body
 
     try {
-        const updated_user = await prisma.user.update({
-            where: {
-                id_user: parseInt(user.id_user)
-            },
-            data: user
-        })
 
-        return res.status(200).json({data: updated_user})
+        if(token){
+            const verifyTokenAsync = promisify(jwt.verify);
+            try {
+                await verifyTokenAsync(token, process.env.JWT_SECRET);
+                try {
+                    const updated_user = await prisma.user.update({
+                        where: {
+                            id_user: parseInt(user.id_user)
+                        },
+                        data: {...user, id_user: parseInt(user.id_user)}
+                    })
+                    return res.status(200).json({data: updated_user})
+                } catch(e) {
+                    return res.status(400).json({error: "Une erreur est survenue"})
+                }
+            } catch(e) {
+                return res.status(400).json({error: "Le lien a expiré"})
+            }
+        } else {
+            try{
+                const updated_user = await prisma.user.update({
+                    where: {
+                        id_user: parseInt(user.id_user)
+                    },
+                    data: user
+                })
+                return res.status(200).json({data: updated_user})
+            } catch(e){
+                return res.status(400).json({error: "Une erreur s'est produite"})
+            }
+
+        }
 
     } catch(e) {
         return res.status(400).json({error: "Une erreur s'est produite"})
