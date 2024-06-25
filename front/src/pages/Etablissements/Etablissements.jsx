@@ -234,7 +234,7 @@ const Etablissements = () => {
                             </div>
                         ))}
                     </div>
-                    <p className={styles.infos}>Le changement ne se fera pas automatiquement, nous nous chargeons de la changer !</p>
+                    <p className={styles.infos}>Le changement ne se fera pas automatiquement, nous nous en chargeons !</p>
                     <div>
                         <p className={styles.update} onClick={updateSub}>{confirm === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
                         <p className={styles.resilier} onClick={resilierSub}>{confirm === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>

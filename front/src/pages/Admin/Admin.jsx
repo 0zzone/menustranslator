@@ -72,7 +72,7 @@ const Admin = () => {
         <div className={styles.container}>
             <h1>Panel admin 🚀</h1>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                <input type="text" placeholder="Nom du restaurant ..." {...register("name")} />
+                <input type="text" placeholder="Nom ou Prénom de l'utilisateur" {...register("name")} />
                 <input type="submit" value="Rechercher" />
             </form>
 
