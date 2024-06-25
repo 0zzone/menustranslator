@@ -21,26 +21,26 @@ const Admin = () => {
         const {name} = data
         setLoading(true)
         const session = JSON.parse(localStorage.getItem("session"))
-        if(!session.token){
+        axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
+            setData(res.data.data)
+            setLoading(false)
+        }).catch(e => {
             window.location.href = "/"
-        } else {
-            axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name}, {
-                headers: {
-                    Authorization: `Bearer ${session.token}`
-                }
-            }).then(res => {
-                setData(res.data.data)
-                setLoading(false)
-            }).catch(e => {
-                window.location.href = "/"
-                toast(e.response.data.error, {type: "error"})
-            })
-        }
+            toast(e.response.data.error, {type: "error"})
+        })
     }
 
     useEffect(() => {
         setLoading(true)
         const session = JSON.parse(localStorage.getItem("session"))
+        if(!session || !session.token) {
+            window.location.href = "/"
+            return
+        }
         axios.post(`${import.meta.env.VITE_API_URL}/users/search`, {name: ""}, {
             headers: {
                 Authorization: `Bearer ${session.token}`
