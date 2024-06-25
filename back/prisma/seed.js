@@ -8,7 +8,7 @@ const users = async () => {
             firstName: "Mattéo",
             lastName: "BONNET",
             password: "$2a$10$ZWIbAzqh51TkxKz44.B7jeF6XS7YfVkjhf0YPS8R0/Cjrpo1P8ha.",
-            subscription: "prod_QBSuSNhdLcfriY",
+            subscription: "price_1PLAwBRsvQKkJzeg48KrnlwA",
             role: "ADMIN"
         }
     ]
