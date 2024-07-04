@@ -126,7 +126,7 @@ router.get("/admin/:id", authenticateToken, async (req, res) => {
 
 router.post("/update/:id_etablissement", authenticateToken, async (req, res) => {
     const {id_etablissement} = req.params
-    // const {theme=null, logo=null} = req.body
+
     try{
 
         const etablissement = await prisma.etablissement.update({
@@ -164,5 +164,24 @@ router.post("/search", authenticateToken, async (req, res) => {
         return res.status(400).json({error: "Une erreur s'est produite"})
     }
 })
+
+router.delete("/:id", authenticateToken, async (req, res) => {
+
+    const {id} = req.params
+
+    try {
+        const etablissement = await prisma.etablissement.delete({
+            where: {
+                id_etablissement: parseInt(id)
+            }
+        })
+
+        return res.status(200).json({data: "Supprimé avec succès !"})
+
+    } catch(e) {
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+})
+
 
 module.exports = router;
