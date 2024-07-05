@@ -194,6 +194,28 @@ input:nth-child(3) {
     color: white;
 }
 
+.popup > form > div {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.popup > form > div > p {
+    color: white;
+    border: none;
+    background-color: red;
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.popup > form > div > p:hover {
+    opacity: .9;
+}
+
 .colorPicker{
     top: 20px;
     left: 50%;

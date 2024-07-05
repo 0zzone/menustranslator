@@ -33,7 +33,7 @@ model Etablissement {
   theme String @default("rgb(113, 154, 97)")
   logo String?
 
-  owner User @relation(fields: [owner_id], references: [id_user])
+  owner User @relation(fields: [owner_id], references: [id_user], onDelete: Cascade)
   sections Section[]
 }
 
@@ -45,7 +45,7 @@ model Section {
   id_etablissement Int
   rank Int
 
-  etablissement Etablissement @relation(fields: [id_etablissement], references: [id_etablissement])
+  etablissement Etablissement @relation(fields: [id_etablissement], references: [id_etablissement], onDelete: Cascade)
   lines Line[]
 }
 
@@ -57,6 +57,6 @@ model Line {
   id_section Int
   rank Int
 
-  section Section @relation(fields: [id_section], references: [id_section])
+  section Section @relation(fields: [id_section], references: [id_section], onDelete: Cascade)
 
 }
