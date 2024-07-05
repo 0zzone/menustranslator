@@ -24,6 +24,7 @@ const Etablissement = () => {
     const [color, setColor] = useState('#ffffff')
     const [settings, setSettings] = useState(false)
     const [displayQRCode, setDisplayQRCode] = useState(false)
+    const [confirm, setConfirm] = useState(false)
 
     if(!localStorage.getItem("session")) window.location.href = "/login"
     if(window.innerWidth < 1024) window.location.href = "/mobile"
@@ -216,19 +217,50 @@ const Etablissement = () => {
         }
     }
 
+    const closePopup = () => {
+        if(settings) {
+            setSettings(false)
+            setConfirm(false)
+        } else {
+            setDisplayQRCode(false)
+        }
+    }
+
+    const deleteResto = () => {
+        if(confirm){
+            const session = JSON.parse(localStorage.getItem("session"))
+            axios.delete(`${import.meta.env.VITE_API_URL}/etablissements/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
+                }
+            }).then(res => {
+                toast("Établissement supprimé avec succès !", {type: "success"})
+                closePopup()
+                window.location.href = "/etablissements"
+            }).catch(e => {
+                toast(e.response.data.error, {type: "error"})
+            })
+        } else {
+            setConfirm(!confirm)
+        }
+    }
+
     return(
         <div className={styles.container}>
 
             <a href="/etablissements" className={styles.aucun}>&#x2190; Retour</a>
 
 
-            {settings || displayQRCode ? <div className={styles.shadow} onClick={() => settings ? setSettings(false) : setDisplayQRCode(false)}></div> : null}
+            {settings || displayQRCode ? <div className={styles.shadow} onClick={closePopup}></div> : null}
             {settings && <div className={styles.popup}>
                 <h2>Paramètres</h2>
                 <MuiColorInput value={color} onChange={(theme) => setColor(theme)} className={styles.colorPicker} />
                 <form onSubmit={handleSubmit(updateParams)}>
                     <input type="text" defaultValue={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
-                    <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
+                    <div>
+                        <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
+                        <p onClick={deleteResto}>{confirm ? "Confirmer" : "Supprimer le restaurant"}</p>
+                    </div>
                 </form>
             </div>}
 
@@ -272,7 +304,7 @@ const Etablissement = () => {
                             <>
                                 <h2>{section.name} <b style={{color: data ? data.theme : color}}>{section.price && `- ${section.price}€`}</b></h2>
                                 <div className={styles.right}>
-                                    <p className={styles.edit} onClick={() => setEditSection(section.id_section)}>Modifier</p>
+                                    <p className={styles.edit} onClick={() => {reset();setEditSection(section.id_section)}}>Modifier</p>
                                     <p className={styles.delete} onClick={() => deleteSection(section.id_section)}>Supprimer</p>
                                 </div>
                             </>}
