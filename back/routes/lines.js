@@ -43,7 +43,7 @@ router.post('/delete/:id_line', authenticateToken, async (req, res) => {
 
 router.post("/update/:id_line", authenticateToken, async (req, res) => {
     const {id_line} = req.params
-    const {name=null, price=null} = req.body
+    const {name=null, price=null, rank=null} = req.body
     try{
         const line = await prisma.line.update({
             where: {
@@ -51,7 +51,8 @@ router.post("/update/:id_line", authenticateToken, async (req, res) => {
             },
             data: {
                 name: name,
-                price: parseFloat(price)
+                price: parseFloat(price),
+                rank: parseInt(rank)
             }
         })
 
