@@ -1,21 +1,29 @@
 import styles from "./Success.module.css"
 import {useParams} from "react-router-dom"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios"
+import {toast} from "react-toastify"
 
 const Success = () => {
 
     if(window.innerWidth < 1024) window.location.href = "/mobile"
 
     const {price_id} = useParams();
+    const [button, setButton] = useState(false)
+
 
     useEffect(() => {
         (async () => {
             const session = JSON.parse(localStorage.getItem("session"))
-            await axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${price_id}`, {}, {
+            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${price_id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${session.token}`
                 }
+            }).then(res => {
+                setButton(true)
+            }).catch(e => {
+                console.log(e)
+                toast(e.response.data.message, {type: "error"})
             })
         })()
     })
@@ -25,7 +33,7 @@ const Success = () => {
             <div className={styles.container}>
                 <img src="/payment.jpg" alt="Payment successful"/>
                 <h1>Merci pour votre commande !</h1>
-                <a href="/etablissements">Accéder à mon dashboard &#x2192;</a>
+                {button ? <a href="/etablissements">Accéder à mon dashboard &#x2192;</a> : <p>Veuillez patienter ...</p>}
             </div>
         </div>
     )

@@ -34,3 +34,8 @@
 .container > a:hover{
     opacity: .9;
 }
+
+.container > p {
+    color: grey;
+    font-style: italic;
+}
