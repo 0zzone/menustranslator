@@ -14,7 +14,7 @@ const getCountryFromCode = (code) => {
         case "ES":
             return "espagnol"
         case "CN":
-            return "chinois mandarin"
+            return "chinois simplifié"
         case "KR":
             return "coréen"
         case "JP":
@@ -29,7 +29,6 @@ const getCountryFromCode = (code) => {
 }
 
 export const translate = async (data, lang_dest) => {
-    console.log(data)
     try{
         let tab = []
         for(let i=0; i<data.sections.length; i++){
@@ -50,7 +49,6 @@ export const translate = async (data, lang_dest) => {
         return {...data, sections: tab}
     } catch(e){
         localStorage.setItem('lang', 'FR')
-        console.log(e)
         window.location.href = '/'
     }
 }

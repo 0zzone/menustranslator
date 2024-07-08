@@ -154,8 +154,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 200px;
+    padding-bottom: 200px;
+    column-gap: 100px;
+}
+
+.phone {
+    width: 25%;
 }
 
 .step {
@@ -355,7 +360,8 @@ footer > a {
     }
 
     .phone {
-        width: 100%;
+        width: 80%;
+        margin-top: 30px;
     }
 
     .pricing > div > a {
