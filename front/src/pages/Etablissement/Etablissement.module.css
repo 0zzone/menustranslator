@@ -5,6 +5,21 @@
     margin-bottom: 200px;
 }
 
+.infos{
+    position: relative;
+    margin-top: 20px;
+}
+
+.close {
+    width: 20px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 120px;
+    cursor: pointer;
+}
+
 .container > h1 {
     margin: 0;
     font-size: 50px;

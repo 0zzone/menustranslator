@@ -96,11 +96,17 @@ const Admin = () => {
                             <div className={styles.right}>
                                 <div>
                                     <p>Silver</p>
-                                    <div className={clsx(styles.sub, user.subscription === import.meta.env.VITE_SILVER_PRICE && styles.selected)} onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}></div>
+                                    <div
+                                        className={clsx(styles.sub, user.subscription === import.meta.env.VITE_SILVER_PRICE && styles.selected)}
+                                        // onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}
+                                    ></div>
                                 </div>
                                 <div>
                                     <p>Gold</p>
-                                    <div className={clsx(styles.sub, user.subscription === import.meta.env.VITE_GOLD_PRICE && styles.selected)} onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}></div>
+                                    <div
+                                        className={clsx(styles.sub, user.subscription === import.meta.env.VITE_GOLD_PRICE && styles.selected)}
+                                        // onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}
+                                    ></div>
                                 </div>
                             </div>
                         </div>
