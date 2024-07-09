@@ -66,7 +66,7 @@ const Welcome = () => {
                 <div className={styles.pricing}>
                     <div>
                         <h1>Silver</h1>
-                        <h2>39€ <b>/mois</b></h2>
+                        <h2>49€ <b>/mois</b></h2>
                         <p>Vous avez <b>un seul</b> établissement ? Cette offre est faite pour vous !</p>
                         <a href="/register">J{"'"}y vais</a>
                     </div>

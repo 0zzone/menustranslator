@@ -104,7 +104,7 @@ const Etablissements = () => {
 
     const [selectedPlan, setSelectedPlan] = useState(import.meta.env.VITE_SILVER_PRICE)
     const plans = [
-        {name: "Silver", price: "39", description: "Si vous avez un seul établissement", price_id: import.meta.env.VITE_SILVER_PRICE},
+        {name: "Silver", price: "49", description: "Si vous avez un seul établissement", price_id: import.meta.env.VITE_SILVER_PRICE},
         {name: "Gold", price: "69", description: "Si vous avez plusieurs établissements", price_id: import.meta.env.VITE_GOLD_PRICE}
     ]
 
@@ -153,7 +153,6 @@ const Etablissements = () => {
             obj = {...obj, password: bcrypt.hashSync(data.new_password, salt)}
         }
 
-        const session = JSON.parse(localStorage.getItem("session"))
         axios.post(`${import.meta.env.VITE_API_URL}/users/update`, {
             user: obj
         }).then(res => {

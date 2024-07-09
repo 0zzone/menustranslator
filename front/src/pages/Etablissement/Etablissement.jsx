@@ -11,6 +11,8 @@ import QRCode from "react-qr-code";
 import html2canvas from 'html2canvas';
 import { FaLink } from "react-icons/fa6";
 import { CiSettings } from "react-icons/ci";
+import Alert from '@mui/material/Alert';
+import { IoClose } from "react-icons/io5";
 
 const Etablissement = () => {
 
@@ -25,6 +27,7 @@ const Etablissement = () => {
     const [settings, setSettings] = useState(false)
     const [displayQRCode, setDisplayQRCode] = useState(false)
     const [confirm, setConfirm] = useState(false)
+    const [infosAlert, setInfosAlert] = useState(true)
 
     if(!localStorage.getItem("session")) window.location.href = "/login"
     if(window.innerWidth < 1024) window.location.href = "/mobile"
@@ -269,6 +272,7 @@ const Etablissement = () => {
                 <p onClick={saveQRCode}>Télécharger le QR code</p>
             </div>}
 
+
             {data ? <div className={styles.top}>
                 {data.logo ? <img src={data.logo} alt="Logo" /> : <h1>{data.name}</h1>}
                 <div className={styles.right}>
@@ -280,6 +284,10 @@ const Etablissement = () => {
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
             
+            {infosAlert && <div className={styles.infos}>
+                <Alert sx={{marginRight: "100px", color: "#333", paddingRight: "30px"}} severity="info">L{"'"}ordre d{"'"}apparition est très important pour conserver le même ordre sur votre menu digital et physique. Ce sera plus simple de comprendre ce que vos clients voudront notamment si vous ne comprenez pas leur langue.</Alert>
+                <IoClose className={styles.close} onClick={() => setInfosAlert(false)} />
+            </div>}
 
             {isAddSection && <form className={styles.addLineStyle} style={{marginLeft: "0px"}} onSubmit={handleSubmit(addSection)}>
                 <input type="text" {...register('name')} placeholder="Nom de la section ..." />
