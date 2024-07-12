@@ -1,0 +1,1 @@
+export const langs = ["FR", "GB", "ES", "CN", "KR", "JP", "DE", "PT", "IT", "UA", "RU"]

@@ -1,11 +1,10 @@
 import styles from "./Menu.module.css"
 import { useState } from "react"
+import { langs } from "../../data"
 
 const Lang = ({lang, setLang}) => {
 
     const [display, setDisplay] = useState(false)
-
-    const langs = ["FR", "GB", "ES", "CN", "KR", "JP", "DE", "PT", "IT"]
 
     const changeLang = (lg) => {
         setLang(lg)

@@ -2,11 +2,41 @@ import styles from "./Welcome.module.css"
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { RiTranslate } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { IoIosTimer } from "react-icons/io";
+import { useState } from "react";
+import {langs} from "../../data"
+import {getCountryFromCode} from "../../functions/translator"
 
 
 const Welcome = () => {
+
+
+    const [showLangs, setShowLangs] = useState(false)
+
+    const capitalizeFirstLetter = (string) => {
+        if (string.length === 0) {
+            return string; // Return empty string if the input is empty
+        }
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return(
         <div className={styles.container}>
+
+
+            {showLangs && <div className={styles.shadow} onClick={() => setShowLangs(false)}></div>}
+            {showLangs && <div className={styles.popup}>
+                <h1>Langues supportées</h1>
+                <div>
+                    {langs.map((lang, index) => (
+                        <div key={index}>
+                            <img src={`https://flagsapi.com/${lang}/flat/64.png`} />
+                            <p>{capitalizeFirstLetter(getCountryFromCode(lang))}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>}
+
             <header>
                 <img src="/logo.png" alt="Logo" />
                 <h1>Menufy</h1>
@@ -28,17 +58,24 @@ const Welcome = () => {
                 <path fill="#F1F1F1" fillOpacity="1" d="M0,224L40,229.3C80,235,160,245,240,240C320,235,400,213,480,186.7C560,160,640,128,720,112C800,96,880,96,960,122.7C1040,149,1120,203,1200,208C1280,213,1360,171,1400,149.3L1440,128L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
             </svg>
 
-            <div className={styles.avantages}>
-                <h1>Pourquoi utiliser Menufy pendant les <b>Jeux-Olympiques </b>?</h1>
-                <div className={styles.card}>
-                    <IoSpeedometerOutline className={styles.icon} />
-                    <h2>Publiez rapidement</h2>
-                    <p>Publiez les mises à jour de votre menu instantanément pour vos clients.</p>
-                </div>
-                <div className={styles.card}>
-                    <RiTranslate className={styles.icon} />
-                    <h2>Traduction automatique</h2>
-                    <p>Chaque client peut traduire son menu parmi une large sélection de langages.</p>
+            <div className={styles.second}>
+                <h1>Pourquoi devriez-vous utiliser <b>Menufy</b> ?</h1>
+                <div className={styles.avantages}>
+                    <div className={styles.card}>
+                        <IoSpeedometerOutline className={styles.icon} />
+                        <h2>Publiez rapidement</h2>
+                        <p>Publiez les mises à jour de votre menu instantanément pour vos clients.</p>
+                    </div>
+                    <div className={styles.card}>
+                        <RiTranslate className={styles.icon} />
+                        <h2>Traduction automatique</h2>
+                        <p>Chaque client peut traduire son menu parmi une <u onClick={() => setShowLangs(true)}>large sélection de langages.</u></p>
+                    </div>
+                    <div className={styles.card}>
+                        <IoIosTimer className={styles.icon} />
+                        <h2>0 stress !</h2>
+                        <p>Ne cherchez plus vos mots face aux clients et optimisez vos échanges.</p>
+                    </div>
                 </div>
             </div>
 
