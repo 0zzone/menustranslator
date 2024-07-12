@@ -268,7 +268,7 @@ const Etablissement = () => {
             </div>}
 
             {displayQRCode && <div className={styles.popup}>
-                <div ref={captureRef}><QRCode value={`${import.meta.env.VITE_APP_URL}/menu/${id}`} className={styles.qrcode} /></div>
+                <div ref={captureRef}><QRCode fgColor={data.theme} value={`${import.meta.env.VITE_APP_URL}/menu/${id}`} className={styles.qrcode} /></div>
                 <p onClick={saveQRCode}>Télécharger le QR code</p>
             </div>}
 

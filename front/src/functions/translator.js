@@ -5,7 +5,7 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser: true
 });
 
-const getCountryFromCode = (code) => {
+export const getCountryFromCode = (code) => {
     switch(code){
         case "GB":
             return "anglais"
@@ -23,6 +23,10 @@ const getCountryFromCode = (code) => {
             return "allemand"
         case "IT":
             return "italien"
+        case "UA":
+            return 'ukrainien'
+        case "RU":
+            return "russe"
         default:
             return "portugais"
     }
