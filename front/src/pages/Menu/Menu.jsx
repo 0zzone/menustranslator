@@ -20,6 +20,7 @@ const Menu = () => {
         (async () => {
             setLoading(true)
             axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`).then(async res => {
+                document.title = "Menu - " + res.data.data.name
                 if(lang !== "FR"){
                     setFrenchData(res.data.data.sections)
                     let tab = await translate(res.data.data, lang)
