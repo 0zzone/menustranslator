@@ -14,12 +14,14 @@ const Menu = () => {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const [lang, setLang] = useState('FR')
+    const [frenchData, setFrenchData] = useState([])
 
     useEffect(() => {
         (async () => {
             setLoading(true)
             axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`).then(async res => {
                 if(lang !== "FR"){
+                    setFrenchData(res.data.data.sections)
                     let tab = await translate(res.data.data, lang)
                     setData(tab)
                     setLoading(false)
@@ -52,6 +54,9 @@ const Menu = () => {
                             <div key={`${index}_${index2}`}> 
                                 {index2 > 0 && <div className={styles.ball}></div>}
                                 <p>{line.name} {line.price && `- ${line.price}€`}</p>
+                                {frenchData.length > 0 && lang != "FR" &&
+                                    <p className={styles.littleNameFrench}>{frenchData[index].lines[index2].name}</p>
+                                }
                             </div>
                         ))}
                     </div>

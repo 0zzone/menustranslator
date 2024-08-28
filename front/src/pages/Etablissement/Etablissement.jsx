@@ -326,7 +326,7 @@ const Etablissement = () => {
                                     <form onSubmit={handleSubmit((data) => editLine(data, line.id_line))}>
                                         <input type="text" defaultValue={line.name} {...register("name")} />
                                         <input type="text" defaultValue={line.price} {...register("price")} placeholder="Prix ..." />
-                                        <input type="number" defaultValue={line.rank} {...register("rank")} placeholder="Prix ..." />
+                                        <input type="number" defaultValue={line.rank} {...register("rank")} placeholder="Ordre d'apparition ..." />
                                         <input type="submit" value="Enregistrer" style={{backgroundColor: data ? data.theme : color}} />
                                         <p onClick={() => {setEdit(null);reset({})}}>Annuler</p>
                                     </form>
