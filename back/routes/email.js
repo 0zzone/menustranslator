@@ -20,6 +20,7 @@ let transporter = nodemailer.createTransport({
 
 router.post("/send", async (req, res) => {
 
+
     const {to=null, data=null, typeMail} = req.body
 
     if(typeMail === "welcome"){
@@ -40,8 +41,11 @@ router.post("/send", async (req, res) => {
                 if (error) {
                     return res.status(400).json({error: "Une erreur est survenue"})
                 }
+
                 return res.status(200)
             });
+
+
     
         });
     } else if(typeMail === "demo") {

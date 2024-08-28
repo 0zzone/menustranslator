@@ -38,6 +38,10 @@ const Register = () => {
                 axios.post(`${import.meta.env.VITE_API_URL}/email/send`, {
                     typeMail: "welcome",
                     to: obj.email
+                }).then(res2 => {
+                    
+                }).catch(e => {
+                    console.log(e)
                 })
                 window.location.href = "/etablissements"
             }).catch(e => {

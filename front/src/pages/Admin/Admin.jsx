@@ -61,7 +61,7 @@ const Admin = () => {
     const changeSubscription = (id_user, new_price_id, previous_price_id) => {
         if(new_price_id !== previous_price_id) {
             const session = JSON.parse(localStorage.getItem("session"))
-            axios.post(`${import.meta.env.VITE_API_URL}/stripe/update/${new_price_id}`, {}, {
+            axios.post(`${import.meta.env.VITE_API_URL}/stripe/brutForceUpdate/${new_price_id}`, {id_user}, {
                 headers: {
                     Authorization: `Bearer ${session.token}`
                 }
@@ -98,14 +98,14 @@ const Admin = () => {
                                     <p>Silver</p>
                                     <div
                                         className={clsx(styles.sub, user.subscription === import.meta.env.VITE_SILVER_PRICE && styles.selected)}
-                                        // onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}
+                                        onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}
                                     ></div>
                                 </div>
                                 <div>
                                     <p>Gold</p>
                                     <div
                                         className={clsx(styles.sub, user.subscription === import.meta.env.VITE_GOLD_PRICE && styles.selected)}
-                                        // onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}
+                                        onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}
                                     ></div>
                                 </div>
                             </div>

@@ -285,7 +285,7 @@ const Etablissement = () => {
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
             
             {infosAlert && <div className={styles.infos}>
-                <Alert sx={{marginRight: "100px", color: "#333", paddingRight: "30px"}} severity="info">L{"'"}ordre d{"'"}apparition est très important pour conserver le même ordre sur votre menu digital et physique. Ce sera plus simple de comprendre ce que vos clients voudront notamment si vous ne comprenez pas leur langue.</Alert>
+                <Alert sx={{marginRight: "100px", color: "#333", paddingRight: "40px"}} severity="info">L{"'"}ordre d{"'"}apparition est très important pour conserver le même ordre sur votre menu digital et physique. Ce sera plus simple de comprendre ce que vos clients voudront notamment si vous ne comprenez pas leur langue.</Alert>
                 <IoClose className={styles.close} onClick={() => setInfosAlert(false)} />
             </div>}
 
