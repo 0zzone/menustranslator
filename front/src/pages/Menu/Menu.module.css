@@ -129,6 +129,14 @@
     margin: 0;
 }
 
+.littleNameFrench{
+    color: silver;
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: -15px;
+    font-style: italic;
+}
+
 .shadow {
     position: absolute !important;
     left: 0;
