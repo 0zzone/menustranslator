@@ -56,4 +56,32 @@ router.post('/update/:price_id', authenticateToken, async (req, res) => {
   }
 })
 
+router.post("/brutForceUpdate/:price_id", authenticateToken, async (req, res) => {
+  const {price_id} = req.params
+  const {id_user} = req.body
+
+  if(req.user.role != "ADMIN") {
+    return res.status(400).json({error: "Accès non autorisé !"})
+  }
+
+  try {
+
+
+    const user = await prisma.user.update({
+      where: {
+        id_user
+      },
+      data: {
+        subscription: price_id
+      }
+    })
+
+    return res.status(200).json({data: user})
+
+  } catch(e) {
+    return res.status(400).json({error: "Une erreur s'est produite"})
+  }
+
+})
+
 module.exports = router;

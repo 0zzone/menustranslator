@@ -22,7 +22,6 @@ const Success = () => {
             }).then(res => {
                 setButton(true)
             }).catch(e => {
-                console.log(e)
                 toast(e.response.data.message, {type: "error"})
             })
         })()

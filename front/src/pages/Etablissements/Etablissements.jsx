@@ -25,7 +25,8 @@ const Etablissements = () => {
     const [loading, setLoading] = useState(true)
     const [isOpen, setIsOpen] = useState(false)
     const [subPopup, setSubPopup] = useState(false)
-    const [confirm, setConfirm] = useState(0)
+    const [confirm1, setConfirm1] = useState(0)
+    const [confirm2, setConfirm2] = useState(0)
 
     const {
         register,
@@ -168,7 +169,7 @@ const Etablissements = () => {
 
     const updateSub = () => {
 
-        if(confirm === 1){
+        if(confirm1 === 1){
             const obj = {
                 typeMail: "updateSub",
                 data: {
@@ -179,20 +180,21 @@ const Etablissements = () => {
     
             axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
                 toast("Une demande a été envoyée pour vote changement d'abonnement !", {type:"success"})
-                setConfirm(0)
+                setConfirm1(0)
+                setConfirm2(0)
                 setSubPopup(false)
             }).catch(e => {
                 toast(e.response.data.error, {type: "error"})
             })
         } else {
-            setConfirm(confirm + 1)
+            setConfirm1(confirm1 + 1)
         }
 
     }
 
     const resilierSub = () => {
 
-        if(confirm === 1){
+        if(confirm2 === 1){
 
             const obj = {
                 typeMail: "resilierSub",
@@ -203,14 +205,15 @@ const Etablissements = () => {
 
             axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
                 toast("Une demande a été envoyée pour vote résiliation !", {type:"success"})
-                setConfirm(0)
+                setConfirm1(0)
+                setConfirm2(0)
                 setSubPopup(false)
             }).catch(e => {
                 toast(e.response.data.error, {type: "error"})
             })
 
         } else {
-            setConfirm(confirm + 1)
+            setConfirm2(confirm2 + 1)
         }
         
     }
@@ -235,8 +238,8 @@ const Etablissements = () => {
                     </div>
                     <p className={styles.infos}>Le changement ne se fera pas automatiquement, nous nous en chargeons !</p>
                     <div>
-                        <p className={styles.update} onClick={updateSub}>{confirm === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
-                        <p className={styles.resilier} onClick={resilierSub}>{confirm === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
+                        <p className={styles.update} onClick={updateSub}>{confirm1 === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
+                        <p className={styles.resilier} onClick={resilierSub}>{confirm2 === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
                     </div>
                     
                 </div>
