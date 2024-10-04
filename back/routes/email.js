@@ -24,7 +24,7 @@ router.post("/send", async (req, res) => {
     const {to=null, data=null, typeMail} = req.body
 
     if(typeMail === "welcome"){
-        const filePath = path.join(__dirname, 'welcome.html');
+        const filePath = path.join(__dirname, './emails/welcome.html');
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
                 return res.status(400).json({error: "Une erreur est survenue"})
@@ -50,7 +50,7 @@ router.post("/send", async (req, res) => {
         });
     } else if(typeMail === "demo") {
 
-        const filePath = path.join(__dirname, 'demo.html');
+        const filePath = path.join(__dirname, './emails/demo.html');
 
         fs.readFile(filePath, 'utf8', (err, html) => {
             if (err) {
@@ -74,64 +74,9 @@ router.post("/send", async (req, res) => {
             });
         });
 
-    } else if(typeMail === "updateSub") {
-
-        const filePath = path.join(__dirname, 'updateSub.html');
-
-        fs.readFile(filePath, 'utf8', (err, html) => {
-            if (err) {
-                return res.status(400).json({ error: "Une erreur est survenue" });
-            }
-
-            const filledHTML = html
-                .replace('{{MAIL}}', data.email)
-                .replace('{{PLAN}}', data.plan)
-
-            const mailOptions = {
-                from: process.env.EMAIL_GOOGLE,
-                to: process.env.EMAIL_GOOGLE,
-                subject: 'Mise à jour de l\'abonnement !',
-                html: filledHTML
-            };
-
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return res.status(400).json({ error: "Une erreur est survenue" });
-                }
-                return res.status(200).json({ message: "Une demande a été envoyée pour vote changement d'abonnement !" });
-            });
-        });
-
-    } else if(typeMail === "resilierSub") {
-
-        const filePath = path.join(__dirname, 'resilierSub.html');
-
-        fs.readFile(filePath, 'utf8', (err, html) => {
-            if (err) {
-                return res.status(400).json({ error: "Une erreur est survenue" });
-            }
-
-            const filledHTML = html
-                .replace('{{MAIL}}', data.email)
-
-            const mailOptions = {
-                from: process.env.EMAIL_GOOGLE,
-                to: process.env.EMAIL_GOOGLE,
-                subject: 'Résiliation de l\'abonnement !',
-                html: filledHTML
-            };
-
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return res.status(400).json({ error: "Une erreur est survenue" });
-                }
-                return res.status(200).json({ message: "Une demande a été envoyée pour vote changement d'abonnement !" });
-            });
-        });
-
     } else if(typeMail === "resetPassword") {
 
-        const filePath = path.join(__dirname, 'resetPassword.html');
+        const filePath = path.join(__dirname, './emails/resetPassword.html');
 
         const user = await prisma.user.findFirst({
             where: {
