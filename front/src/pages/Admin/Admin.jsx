@@ -50,7 +50,7 @@ const Admin = () => {
             setLoading(false)
         }).catch(e => {
             if(e.response.status === 403){
-                window.location.href = "/etablissements"
+                // window.location.href = "/etablissements"
             } else{
                 toast(e.response.data.error, {type: "error"})
                 localStorage.removeItem("session")
@@ -58,19 +58,19 @@ const Admin = () => {
         })
     }, [change])
 
-    const changeSubscription = (id_user, new_price_id, previous_price_id) => {
-        if(new_price_id !== previous_price_id) {
-            const session = JSON.parse(localStorage.getItem("session"))
-            axios.post(`${import.meta.env.VITE_API_URL}/stripe/brutForceUpdate/${new_price_id}`, {id_user}, {
-                headers: {
-                    Authorization: `Bearer ${session.token}`
-                }
-            }).then(res => {
-                setChange(!change)
-            }).catch(e => {
-                toast(e.response.data.error, {type: "error"})
-            }) 
-        }
+    const changeSubscription = (id_user, role) => {
+       
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.put(`${import.meta.env.VITE_API_URL}/users/update-role`, {id_user, role}, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
+            setChange(!change)
+        }).catch(e => {
+            toast(e.response.data.error, {type: "error"})
+        })
+
     }
 
     return(
@@ -91,21 +91,28 @@ const Admin = () => {
                             <div>
                                 <h2>{user.firstName} {user.lastName}</h2>
                                 <p>{user.email}</p>
-                                <p className={styles.join}><span>Restaurants:</span> {user.etablissements.map(etablissement => etablissement.name).join(", ")}</p>
+                                <p className={styles.join}><span>Restaurants:</span> {user.etablissements.length > 0 ? user.etablissements.map(etablissement => etablissement.name).join(", ") : 'Aucun restaurant'}</p>
                             </div>
                             <div className={styles.right}>
                                 <div>
-                                    <p>Silver</p>
+                                    <p>USER</p>
                                     <div
-                                        className={clsx(styles.sub, user.subscription === import.meta.env.VITE_SILVER_PRICE && styles.selected)}
-                                        onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_SILVER_PRICE, user.subscription)}
+                                        className={clsx(styles.sub, user.role === "USER" && styles.selected)}
+                                        onClick={() => changeSubscription(user.id_user, "USER")}
                                     ></div>
                                 </div>
                                 <div>
-                                    <p>Gold</p>
+                                    <p>FREE</p>
                                     <div
-                                        className={clsx(styles.sub, user.subscription === import.meta.env.VITE_GOLD_PRICE && styles.selected)}
-                                        onClick={() => changeSubscription(user.id_user, import.meta.env.VITE_GOLD_PRICE, user.subscription)}
+                                        className={clsx(styles.sub, user.role === "FREE" && styles.selected)}
+                                        onClick={() => changeSubscription(user.id_user, "FREE")}
+                                    ></div>
+                                </div>
+                                <div>
+                                    <p>ADMIN</p>
+                                    <div
+                                        className={clsx(styles.sub, user.role === "ADMIN" && styles.selected)}
+                                        onClick={() => changeSubscription(user.id_user, "ADMIN")}
                                     ></div>
                                 </div>
                             </div>

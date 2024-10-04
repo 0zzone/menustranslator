@@ -152,5 +152,32 @@ router.post("/update", async (req, res) => {
 
 })
 
+router.put("/update-role", authenticateToken, async (req, res) => {
+
+    if(req.user.role !== "ADMIN") {
+        return res.status(403).json({error: "Vous n'êtes pas autorisé à accéder à cette page !"})
+    }
+
+    const {id_user, role} = req.body
+
+    try {
+        const updated_user = await prisma.user.update({
+            where: {
+                id_user: parseInt(id_user)
+            },
+            data: {
+                role
+            }
+        })
+
+        return res.status(200).json({data: updated_user})
+
+    } catch(e) {
+        console.log(e)
+        return res.status(400).json({error: "Une erreur s'est produite"})
+    }
+
+})
+
 
 module.exports = router;

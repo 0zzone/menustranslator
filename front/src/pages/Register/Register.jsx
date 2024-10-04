@@ -41,7 +41,7 @@ const Register = () => {
                 }).then(res2 => {
                     
                 }).catch(e => {
-                    console.log(e)
+                    
                 })
                 window.location.href = "/etablissements"
             }).catch(e => {

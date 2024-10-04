@@ -4,6 +4,7 @@ require("dotenv").config()
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient()
 const authenticateToken = require("./middleware")
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.post("/create", authenticateToken, async (req, res) => {
     const {name, owner_id} = req.body
@@ -19,13 +20,19 @@ router.post("/create", authenticateToken, async (req, res) => {
             }
         })
 
-        if(!user.subscription){
+
+        if(user.role === "USER" && !user.subscription){
             return res.status(400).json({error: "Vous devez souscrire à un abonnement"})
         }
 
-        if(user.subscription === process.env.SILVER_PRICE){
-            if(user.etablissements.length > 0){
-                return res.status(400).json({error: "Votre abonnement ne vous permet pas d'avoir plusieurs établissements"})
+        if(user.role === "USER") {
+            const subscription = await stripe.subscriptions.retrieve(
+                user.subscription
+            );
+            if(subscription.plan.id === process.env.SILVER_PRICE){
+                if(user.etablissements.length > 0){
+                    return res.status(400).json({error: "Votre abonnement ne vous permet pas d'avoir plusieurs établissements"})
+                }
             }
         }
 
@@ -36,9 +43,10 @@ router.post("/create", authenticateToken, async (req, res) => {
             }
         })
 
-        return res.status(200).json({data: etablissement})
+        return res.status(200).json({data: "etablissement"})
 
     } catch(e) {
+        console.log(e)
         return res.status(400).json({error: "Une erreur s'est produite"})
     }
 })
