@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 const authenticateToken = require("./middleware")
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+
 router.post('/create-checkout-session', authenticateToken, async (req, res) => {
   const {price_id=null} = req.body
   if(price_id === process.env.GOLD_PRICE || price_id === process.env.SILVER_PRICE){
@@ -19,69 +20,78 @@ router.post('/create-checkout-session', authenticateToken, async (req, res) => {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.FRONTEND_DOMAIN}/success/${price_id}`,
+      metadata: {
+        user_id: req.user.id_user,
+      },
+      success_url: `${process.env.FRONTEND_DOMAIN}/success`,
       cancel_url: `${process.env.FRONTEND_DOMAIN}/register`,
     });
+
     res.json({ id: session.id });
   } else {
     res.status(404).json({data: "Page non trouvée !"})
   }
 });
 
-router.post('/update/:price_id', authenticateToken, async (req, res) => {
-  const {price_id} = req.params
+router.get("/:subscription_id", authenticateToken, async (req, res) => {
+
+  const {subscription_id} = req.params
+
+  try {
+    const subscription = await stripe.subscriptions.retrieve(subscription_id)
+    return res.status(200).json({subscription})
+  } catch (error) {
+    return res.status(400).json({error: "Une erreur est survenue"})
+  }
+});
+
+router.put("/:subscription_id/:sub_item_id/:new_price_id", authenticateToken, async (req, res) => {
+
+  const {sub_item_id, new_price_id, subscription_id} = req.params
+
+  try {
+    const updatedSubscription = await stripe.subscriptions.update(subscription_id, {
+      items: [{
+        id: sub_item_id,
+        price: new_price_id,
+      }],
+      metadata: {
+        user_id: req.user.id_user,
+      },
+    });
+
+    return res.status(200).json({data: updatedSubscription})
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({error: "Une erreur est survenue"})
+  }
+});
+
+router.delete("/:subscription_id", authenticateToken, async (req, res) => {
+
+  const {subscription_id} = req.params
 
   try {
 
-    const {data} = await stripe.customers.list();
-    const is_in = data.filter(customer => customer.email === req.user.email).length > 0
+    const subscription = await stripe.subscriptions.cancel(
+      subscription_id
+    );
 
-
-    if(is_in){
-      const user = await prisma.user.update({
-        where: {
-          id_user: req.user.id_user
-        },
-        data: {
-          subscription: price_id
-        }
-      })
-      return res.status(200).json({data: user})
-    } else {
-      return res.status(400).json({message: "Une erreur s'est produite"})
-    }
-
-  } catch(e) {
-    return res.status(400).json({error: "Une erreur s'est produite"})
-  }
-})
-
-router.post("/brutForceUpdate/:price_id", authenticateToken, async (req, res) => {
-  const {price_id} = req.params
-  const {id_user} = req.body
-
-  if(req.user.role != "ADMIN") {
-    return res.status(400).json({error: "Accès non autorisé !"})
-  }
-
-  try {
-
-
-    const user = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
-        id_user
+        id_user: req.user.id_user
       },
       data: {
-        subscription: price_id
+        subscription: null,
+        sub_item_id: null,
       }
     })
 
-    return res.status(200).json({data: user})
-
-  } catch(e) {
-    return res.status(400).json({error: "Une erreur s'est produite"})
+    return res.status(200).json({data: subscription})
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({error: "Une erreur est survenue"})
   }
-
-})
+});
 
 module.exports = router;

@@ -54,6 +54,14 @@
     cursor: pointer;
 }
 
+.admin {
+    background-color: #F1F1F1 !important;
+    color: black !important;
+    text-decoration: none !important;
+    padding: 7px;
+    border-radius: 10px;
+}
+
 form{
     margin-top: 25px;
     margin-bottom: 20px;

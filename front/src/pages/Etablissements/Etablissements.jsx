@@ -35,23 +35,33 @@ const Etablissements = () => {
     } = useForm()
 
     useEffect(() => {
-        (async () => {
-            try {
-                const session = JSON.parse(localStorage.getItem("session"))
-                const userDB = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
-                    headers: {
+        const session = JSON.parse(localStorage.getItem("session"))
+        axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
+            headers: {
+                Authorization: `Bearer ${session.token}`
+            }
+        }).then(res => {
+
+
+
+            if(res.data.data.subscription) {
+                axios.get(`${import.meta.env.VITE_API_URL}/stripe/${res.data.data.subscription}`, {
+                    headers:{
                         Authorization: `Bearer ${session.token}`
                     }
+                }).then(res2 => {
+                    setUser({...res.data.data, price_id: res2.data.subscription.plan.id})
+                    setLoading(false)
                 })
-                setUser(userDB.data.data)
+            } else {
+                setUser(res.data.data)
                 setLoading(false)
-            } catch(e) {
-                localStorage.removeItem('session')
-                window.location.href = "/"
             }
-        })()
+        }).catch(e => {
+            localStorage.removeItem('session')
+            window.location.href = "/"
+        })
     }, [change])
-
 
     const onSubmit = (data) => {
 
@@ -169,23 +179,18 @@ const Etablissements = () => {
 
     const updateSub = () => {
 
-        if(confirm1 === 1){
-            const obj = {
-                typeMail: "updateSub",
-                data: {
-                    email: user.email,
-                    plan: selectedPlan === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"
+        if(confirm1 === 1){            
+            const session = JSON.parse(localStorage.getItem("session"))
+            axios.put(`${import.meta.env.VITE_API_URL}/stripe/${user.subscription}/${user.sub_item_id}/${selectedPlan}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
                 }
-            }
-    
-            axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
-                toast("Une demande a été envoyée pour vote changement d'abonnement !", {type:"success"})
-                setConfirm1(0)
-                setConfirm2(0)
+            }).then(res => {
+                toast("Abonnement mis à jour !", {type: "success"})
+                setChange(!change)
                 setSubPopup(false)
-            }).catch(e => {
-                toast(e.response.data.error, {type: "error"})
             })
+
         } else {
             setConfirm1(confirm1 + 1)
         }
@@ -196,20 +201,15 @@ const Etablissements = () => {
 
         if(confirm2 === 1){
 
-            const obj = {
-                typeMail: "resilierSub",
-                data: {
-                    email: user.email,
+            const session = JSON.parse(localStorage.getItem("session"))
+            axios.delete(`${import.meta.env.VITE_API_URL}/stripe/${user.subscription}`, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
                 }
-            }
-
-            axios.post(`${import.meta.env.VITE_API_URL}/email/send`, obj).then(res => {
-                toast("Une demande a été envoyée pour vote résiliation !", {type:"success"})
-                setConfirm1(0)
-                setConfirm2(0)
+            }).then(res => {
+                toast("Abonnement résilié !", {type: "success"})
+                setChange(!change)
                 setSubPopup(false)
-            }).catch(e => {
-                toast(e.response.data.error, {type: "error"})
             })
 
         } else {
@@ -220,11 +220,10 @@ const Etablissements = () => {
 
     return(
         <div className={styles.container}>
-
             {subPopup && <>
                 <div className={styles.shadow} onClick={() => setSubPopup(false)}></div>
                 <div className={styles.must}>
-                    <h2>Abonnement actuel <u>{user.subscription === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"}</u></h2>
+                    <h2>Abonnement actuel <u>{user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"}</u></h2>
                     <div>
                         {plans.map((plan, index) => (
                             <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
@@ -236,7 +235,7 @@ const Etablissements = () => {
                             </div>
                         ))}
                     </div>
-                    <p className={styles.infos}>Le changement ne se fera pas automatiquement, nous nous en chargeons !</p>
+
                     <div>
                         <p className={styles.update} onClick={updateSub}>{confirm1 === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
                         <p className={styles.resilier} onClick={resilierSub}>{confirm2 === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
@@ -266,11 +265,12 @@ const Etablissements = () => {
                 <div>
                     <p onClick={logout}>Déconnexion</p>
                     <MdEdit className={styles.settings} onClick={() => setIsOpen(true)} />
-                    <Tooltip onClick={() => setSubPopup(true)} title={user.subscription === import.meta.env.VITE_GOLD_PRICE ? "Abonnement Gold" : "Abonnement Silver"}>
+                    {user.subscription && <Tooltip onClick={() => setSubPopup(true)} title={user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Abonnement Gold" : "Abonnement Silver"}>
                         <IconButton>
-                            <RiCopperCoinFill className={styles.coin} style={user.subscription === import.meta.env.VITE_GOLD_PRICE ? {color: "gold"} : {color: "grey"}} />
+                            <RiCopperCoinFill className={styles.coin} style={user.price_id === import.meta.env.VITE_GOLD_PRICE ? {color: "gold"} : {color: "grey"}} />
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip>}
+                    {user && user.role === "ADMIN" && user.role && <a href="/admin/admin" className={styles.admin}>{user.role}</a>}
                 </div>
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
@@ -300,7 +300,7 @@ const Etablissements = () => {
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
                     <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                </div> : user.subscription ? <p className={styles.aucun}>Aucun restaurant</p>
+                </div> : user.subscription || user.role !== 'USER' ? <p className={styles.aucun}>Aucun restaurant</p>
                     : <>
                         <div className={styles.shadow}></div>
                         <div className={styles.must}>

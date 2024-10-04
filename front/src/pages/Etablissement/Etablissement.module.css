@@ -186,19 +186,22 @@ input:nth-child(3) {
     transform: translate(-50%, -50%);
     background-color: white;
     z-index: 999;
-    padding: 50px;
+    padding: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
     border-radius: 10px;
 }
 
 .popup > h2 {
-    margin: 0;
     text-align: center;
+    margin:0;
+    margin-top: 30px;
 }
 
 .popup > p {
     text-align: center;
     margin:0;
-    margin-top: 30px;
+    margin-top: 10px;
     border: 2px solid #333;
     padding: 7px;
     cursor: pointer;
@@ -217,10 +220,11 @@ input:nth-child(3) {
     column-gap: 20px;
 }
 
+
 .popup > form > div > p {
     color: white;
     border: none;
-    background-color: red;
+    background-color: rgb(214, 103, 103);
     padding: 7px;
     border-radius: 5px;
     cursor: pointer;

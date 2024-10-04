@@ -19,7 +19,8 @@ model User {
   lastName String
   password String
   subscription String?
-  role String @default("USER")
+  sub_item_id String?
+  role Role @default(USER)
 
   etablissements Etablissement[]
 
@@ -59,4 +60,10 @@ model Line {
 
   section Section @relation(fields: [id_section], references: [id_section], onDelete: Cascade)
 
+}
+
+enum Role {
+  USER
+  ADMIN
+  FREE
 }
