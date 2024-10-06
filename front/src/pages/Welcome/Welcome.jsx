@@ -3,22 +3,40 @@ import { IoSpeedometerOutline } from "react-icons/io5";
 import { RiTranslate } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoIosTimer } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {langs} from "../../data"
 import {getCountryFromCode} from "../../functions/translator"
+import axios from "axios"
 
 
 const Welcome = () => {
 
 
     const [showLangs, setShowLangs] = useState(false)
+    const [isLoggedUser, setIsLoggedUser] = useState(false)
 
     const capitalizeFirstLetter = (string) => {
         if (string.length === 0) {
-            return string; // Return empty string if the input is empty
+            return string;
         }
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    useEffect(() => {
+        const session = JSON.parse(localStorage.getItem("session"))
+        if(session) {
+            axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
+                headers: {
+                    Authorization: `Bearer ${session.token}`
+                }
+            }).then(res => {
+                setIsLoggedUser(true)
+            }).catch(err => {
+                localStorage.removeItem("session")
+            })
+        }
+
+    }, [])
 
     return(
         <div className={styles.container}>
@@ -38,8 +56,11 @@ const Welcome = () => {
             </div>}
 
             <header>
-                <img src="/logo.png" alt="Logo" />
-                <h1>Menufy</h1>
+                <div>
+                    <img src="/logo.png" alt="Logo" />
+                    <h1>Menufy</h1>
+                </div>
+                <a href="/etablissements">{isLoggedUser ? <span>Mon espace &#x2192;</span> : "Se connecter"}</a>
             </header>
 
             <div className={styles.first}>
