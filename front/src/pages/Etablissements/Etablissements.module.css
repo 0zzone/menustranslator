@@ -117,8 +117,25 @@ h2 {
     margin: 0;
 }
 
+.aucunDiv {
+    margin-top: 200px;
+}
+
+.aucunDiv > img {
+    width: 350px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.aucunDiv > p {
+    text-align: center;
+    margin-top: 50px;
+}
+
 .aucun{
-    color: grey;
+    color: silver;
     margin-top: 0px;
     font-style: italic;
 }

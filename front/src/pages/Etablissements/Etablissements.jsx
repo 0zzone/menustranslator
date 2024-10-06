@@ -279,48 +279,63 @@ const Etablissements = () => {
                 <input type="submit" value="Ajouter" /> 
             </form>
 
-            <h2>Mes restaurants</h2>
-            <div className={styles.liste}>
-                {user && user.etablissements && user.etablissements.length > 0 ? user.etablissements.map((etablissement, index) => (
-                    <a href={`/admin/etablissement/${etablissement.id_etablissement}`} key={index} className={styles.card}>
-                        <h2>{etablissement.name}</h2>
-                    </a>
-                )) : loading ? <div className={styles.liste}>
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                </div> : user.subscription || user.role !== 'USER' ? <p className={styles.aucun}>Aucun restaurant</p>
-                    : <>
-                        <div className={styles.shadow}></div>
-                        <div className={styles.must}>
-                            <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
-                            <div>
-                                {plans.map((plan, index) => (
-                                    <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
-                                        <div>
-                                            <h1>{plan.name}</h1>
-                                            <p>{plan.description}</p>
-                                        </div>
-                                        <h2>{plan.price}€ <b>/mois</b></h2>
-                                    </div>
-                                ))}
-                            </div>
-                            <p onClick={paySubscription}>Opter pour le plan {getPlanByPriceId(selectedPlan)} &#x2192;</p>
-                        </div>
-                    </>}
+            {user && user.etablissements && user.etablissements.length > 0 ?
+                <>
+                    <h2>Mes restaurants</h2>
+                    <div className={styles.liste}>
+                        {user.etablissements.map((etablissement, index) => (
+                            <a href={`/admin/etablissement/${etablissement.id_etablissement}`} key={index} className={styles.card}>
+                                <h2>{etablissement.name}</h2>
+                            </a>
+                        ))}
+                    </div>
+                </>
+            
+            : loading ? <div className={styles.liste}>
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
             </div>
+
+            : user.subscription || user.role !== 'USER' ?
+                <div className={styles.aucunDiv}>
+                    <img src="/no_resto.svg" />
+                    <p className={styles.aucun}>Aucun restaurant</p>
+                </div>
+            
+            : <>
+            
+                <div className={styles.shadow}></div>
+                    <div className={styles.must}>
+                    <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
+                    <div>
+                        {plans.map((plan, index) => (
+                            <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
+                                <div>
+                                    <h1>{plan.name}</h1>
+                                    <p>{plan.description}</p>
+                                </div>
+                                <h2>{plan.price}€ <b>/mois</b></h2>
+                            </div>
+                        ))}
+                    </div>
+                    <p onClick={paySubscription}>Opter pour le plan {getPlanByPriceId(selectedPlan)} &#x2192;</p>
+                </div>
+                    
+            </>}
         </div>
+            
     )
 }
 
