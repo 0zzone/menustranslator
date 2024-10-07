@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {langs} from "../../data"
 import {getCountryFromCode} from "../../functions/translator"
 import axios from "axios"
+import Footer from "../../components/Footer/Footer";
 
 
 const Welcome = () => {
@@ -40,7 +41,6 @@ const Welcome = () => {
 
     return(
         <div className={styles.container}>
-
 
             {showLangs && <div className={styles.shadow} onClick={() => setShowLangs(false)}></div>}
             {showLangs && <div className={styles.popup}>
@@ -135,11 +135,10 @@ const Welcome = () => {
                         <a href="/register">J{"'"}y vais</a>
                     </div>
                 </div>
-            </div>
 
-            <footer>
-                <a target="_blank" href="https://matteo-bonnet.fr/">Made with ❤️ by Mattéo Bonnet</a>
-            </footer>
+                <Footer color={"dark"} />
+
+            </div>
 
         </div>
     )
