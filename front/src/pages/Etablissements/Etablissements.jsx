@@ -13,6 +13,7 @@ var salt = bcrypt.genSaltSync(10);
 import { RiCopperCoinFill } from "react-icons/ri";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import Footer from "../../components/Footer/Footer"
 
 
 const Etablissements = () => {
@@ -334,6 +335,11 @@ const Etablissements = () => {
                 </div>
                     
             </>}
+
+            <div style={{position: "absolute", top: "90dvh", width: "100%", }}>
+                <Footer color={"light"} />
+            </div>
+
         </div>
             
     )

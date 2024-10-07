@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import Lang from "./Lang";
 import { translate } from "../../functions/translator";
 import {toast} from "react-toastify"
+import {Helmet} from "react-helmet"
+import Footer from "../../components/Footer/Footer";
 
 const Menu = () => {
 
@@ -20,7 +22,6 @@ const Menu = () => {
         (async () => {
             setLoading(true)
             axios.get(`${import.meta.env.VITE_API_URL}/etablissements/${id}`).then(async res => {
-                document.title = "Menu - " + res.data.data.name
                 if(lang !== "FR"){
                     setFrenchData(res.data.data.sections)
                     let tab = await translate(res.data.data, lang)
@@ -43,6 +44,13 @@ const Menu = () => {
 
     return(
         <>
+
+            {data && <Helmet>
+                <meta charSet="utf-8" />
+                <title>{`Menu - ${data.name}`}</title>
+                <link rel="canonical" href={window.location.pathname} />
+            </Helmet>}
+
             {!loading ? <div className={styles.container}>
                 {data.logo ? <img src={data.logo} alt="Logo" /> : <h1>{data.name}</h1>}
 
@@ -70,6 +78,7 @@ const Menu = () => {
                 </Box>
             </div>}
 
+            <Footer color={"light"} />
 
         </>
     )

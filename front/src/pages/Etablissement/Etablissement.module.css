@@ -90,9 +90,6 @@ input:nth-child(3) {
     text-decoration: none;
 }
 
-.aucun:hover{
-    text-decoration: underline;
-}
 
 .liste {
     display: flex;
