@@ -345,8 +345,9 @@ footer > a {
 
 @media screen and (max-width: 1024px) {
 
+
     .container > header {
-        justify-content: center;
+        justify-content: space-between;
         padding: 10px;
     }
 
