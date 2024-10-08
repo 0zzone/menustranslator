@@ -1,3 +1,6 @@
+
+name: backend-menufy
+
 services:
   db:
     image: postgres:15

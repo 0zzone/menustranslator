@@ -60,7 +60,7 @@ const Welcome = () => {
                     <img src="/logo.png" alt="Logo" />
                     <h1>Menufy</h1>
                 </div>
-                <a href="/etablissements">{isLoggedUser ? <span>Mon espace &#x2192;</span> : "Se connecter"}</a>
+                {isLoggedUser ? <a href="/etablissements">Mon espace &#x2192;</a> : <a href="/login">Se connecter</a>}
             </header>
 
             <div className={styles.first}>
