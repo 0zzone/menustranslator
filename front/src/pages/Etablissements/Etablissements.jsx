@@ -220,128 +220,129 @@ const Etablissements = () => {
     }
 
     return(
-        <div className={styles.container}>
-            {subPopup && <>
-                <div className={styles.shadow} onClick={() => setSubPopup(false)}></div>
-                <div className={styles.must}>
-                    <h2>Abonnement actuel <u>{user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"}</u></h2>
-                    <div>
-                        {plans.map((plan, index) => (
-                            <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
-                                <div>
-                                    <h1>{plan.name}</h1>
-                                    <p>{plan.description}</p>
-                                </div>
-                                <h2>{plan.price}€ <b>/mois</b></h2>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div>
-                        <p className={styles.update} onClick={updateSub}>{confirm1 === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
-                        <p className={styles.resilier} onClick={resilierSub}>{confirm2 === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
-                    </div>
-                    
-                </div>
-            </>}
-
-            {isOpen && <>
-                <div className={styles.shadow} onClick={() => setIsOpen(false)}></div>
-                <div className={styles.must}>
-                    <h2>Mes informations</h2>
-                    <form onSubmit={handleSubmit(updateInformations)} className={styles.formUpdate}>
-                        <input {...register("firstName")} type="text" placeholder="Prénom" defaultValue={user.firstName} />
-                        <input {...register("lastName")} type="text" placeholder="Nom" defaultValue={user.lastName} />
-                        <input {...register("email")} type="email" placeholder="Adresse email" defaultValue={user.email} disabled />
-                        <input {...register("old_password")} type="password" placeholder="Ancien mot de passe" />
-                        <input {...register("new_password")} type="password" placeholder="Nouveau mot de passe" />
-                        <input {...register("confirmation_new_password")} type="password" placeholder="Confirmation du nouveau mot de passe" />
-                        <input type="submit" value="Enregister" />
-                    </form>
-                </div>
-            </>}
-
-            {user ? <div className={styles.top}>
-                <h1>Bonjour, {user.firstName} 👋</h1>
-                <div>
-                    <p onClick={logout}>Déconnexion</p>
-                    <MdEdit className={styles.settings} onClick={() => setIsOpen(true)} />
-                    {user.subscription && <Tooltip onClick={() => setSubPopup(true)} title={user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Abonnement Gold" : "Abonnement Silver"}>
-                        <IconButton>
-                            <RiCopperCoinFill className={styles.coin} style={user.price_id === import.meta.env.VITE_GOLD_PRICE ? {color: "gold"} : {color: "grey"}} />
-                        </IconButton>
-                    </Tooltip>}
-                    {user && user.role === "ADMIN" && user.role && <a href="/admin/admin" className={styles.admin}>{user.role}</a>}
-                </div>
-            </div>
-            : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input type="text" {...register("name")} placeholder="Nom du restaurant ..." />
-                <input type="submit" value="Ajouter" /> 
-            </form>
-
-            {user && user.etablissements && user.etablissements.length > 0 ?
-                <>
-                    <h2>Mes restaurants</h2>
-                    <div className={styles.liste}>
-                        {user.etablissements.map((etablissement, index) => (
-                            <a href={`/admin/etablissement/${etablissement.id_etablissement}`} key={index} className={styles.card}>
-                                <h2>{etablissement.name}</h2>
-                            </a>
-                        ))}
-                    </div>
-                </>
-            
-            : loading ? <div className={styles.liste}>
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-                <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
-            </div>
-
-            : user.subscription || user.role !== 'USER' ?
-                <div className={styles.aucunDiv}>
-                    <img src="/no_resto.svg" />
-                    <p className={styles.aucun}>Aucun restaurant</p>
-                </div>
-            
-            : <>
-            
-                <div className={styles.shadow}></div>
+        <>
+            <div className={styles.container}>
+                {subPopup && <>
+                    <div className={styles.shadow} onClick={() => setSubPopup(false)}></div>
                     <div className={styles.must}>
-                    <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
-                    <div>
-                        {plans.map((plan, index) => (
-                            <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
-                                <div>
-                                    <h1>{plan.name}</h1>
-                                    <p>{plan.description}</p>
+                        <h2>Abonnement actuel <u>{user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Gold" : "Silver"}</u></h2>
+                        <div>
+                            {plans.map((plan, index) => (
+                                <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
+                                    <div>
+                                        <h1>{plan.name}</h1>
+                                        <p>{plan.description}</p>
+                                    </div>
+                                    <h2>{plan.price}€ <b>/mois</b></h2>
                                 </div>
-                                <h2>{plan.price}€ <b>/mois</b></h2>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+
+                        <div>
+                            <p className={styles.update} onClick={updateSub}>{confirm1 === 0 ? "Changer mon abonnement" : "Confirmer"}</p>
+                            <p className={styles.resilier} onClick={resilierSub}>{confirm2 === 0 ? "Résilier mon abonnement" : "Confirmer"}</p>
+                        </div>
+                        
                     </div>
-                    <p onClick={paySubscription}>Opter pour le plan {getPlanByPriceId(selectedPlan)} &#x2192;</p>
+                </>}
+
+                {isOpen && <>
+                    <div className={styles.shadow} onClick={() => setIsOpen(false)}></div>
+                    <div className={styles.must}>
+                        <h2>Mes informations</h2>
+                        <form onSubmit={handleSubmit(updateInformations)} className={styles.formUpdate}>
+                            <input {...register("firstName")} type="text" placeholder="Prénom" defaultValue={user.firstName} />
+                            <input {...register("lastName")} type="text" placeholder="Nom" defaultValue={user.lastName} />
+                            <input {...register("email")} type="email" placeholder="Adresse email" defaultValue={user.email} disabled />
+                            <input {...register("old_password")} type="password" placeholder="Ancien mot de passe" />
+                            <input {...register("new_password")} type="password" placeholder="Nouveau mot de passe" />
+                            <input {...register("confirmation_new_password")} type="password" placeholder="Confirmation du nouveau mot de passe" />
+                            <input type="submit" value="Enregister" />
+                        </form>
+                    </div>
+                </>}
+
+                {user ? <div className={styles.top}>
+                    <h1>Bonjour, {user.firstName} 👋</h1>
+                    <div>
+                        <p onClick={logout}>Déconnexion</p>
+                        <MdEdit className={styles.settings} onClick={() => setIsOpen(true)} />
+                        {user.subscription && <Tooltip onClick={() => setSubPopup(true)} title={user.price_id === import.meta.env.VITE_GOLD_PRICE ? "Abonnement Gold" : "Abonnement Silver"}>
+                            <IconButton>
+                                <RiCopperCoinFill className={styles.coin} style={user.price_id === import.meta.env.VITE_GOLD_PRICE ? {color: "gold"} : {color: "grey"}} />
+                            </IconButton>
+                        </Tooltip>}
+                        {user && user.role === "ADMIN" && user.role && <a href="/admin/admin" className={styles.admin}>{user.role}</a>}
+                    </div>
                 </div>
-                    
-            </>}
+                : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input type="text" {...register("name")} placeholder="Nom du restaurant ..." />
+                    <input type="submit" value="Ajouter" /> 
+                </form>
+
+                {user && user.etablissements && user.etablissements.length > 0 ?
+                    <>
+                        <h2>Mes restaurants</h2>
+                        <div className={styles.liste}>
+                            {user.etablissements.map((etablissement, index) => (
+                                <a href={`/admin/etablissement/${etablissement.id_etablissement}`} key={index} className={styles.card}>
+                                    <h2>{etablissement.name}</h2>
+                                </a>
+                            ))}
+                        </div>
+                    </>
+                
+                : loading ? <div className={styles.liste}>
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                    <Skeleton variant="rectangular" width={210} height={60} style={{borderRadius: "5px"}} />
+                </div>
+
+                : user.subscription || user.role !== 'USER' ?
+                    <div className={styles.aucunDiv}>
+                        <img src="/no_resto.svg" />
+                        <p className={styles.aucun}>Aucun restaurant</p>
+                    </div>
+                
+                : <>
+                
+                    <div className={styles.shadow}></div>
+                        <div className={styles.must}>
+                        <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
+                        <div>
+                            {plans.map((plan, index) => (
+                                <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
+                                    <div>
+                                        <h1>{plan.name}</h1>
+                                        <p>{plan.description}</p>
+                                    </div>
+                                    <h2>{plan.price}€ <b>/mois</b></h2>
+                                </div>
+                            ))}
+                        </div>
+                        <p onClick={paySubscription}>Opter pour le plan {getPlanByPriceId(selectedPlan)} &#x2192;</p>
+                    </div>
+                        
+                </>}
+            </div>
 
             <div style={{position: "absolute", top: "90dvh", width: "100%", }}>
                 <Footer color={"light"} />
             </div>
-
-        </div>
             
+        </>
     )
 }
 

@@ -255,9 +255,14 @@ const Etablissement = () => {
 
 
             {settings || displayQRCode ? <div className={styles.shadow} onClick={closePopup}></div> : null}
-            {settings && <div className={styles.popup}>
+            {settings && <div className={styles.settings}>
                 <h2>Paramètres</h2>
-                <MuiColorInput value={color} onChange={(theme) => setColor(theme)} className={styles.colorPicker} />
+                <MuiColorInput
+                    value={color}
+                    onChange={(theme) => setColor(theme)}
+                    className={styles.colorPicker}
+                    sx={{ width: '100%', '& input': { width: '100%' } }}
+                />
                 <form onSubmit={handleSubmit(updateParams)}>
                     <input type="text" defaultValue={data ? data.logo : null} {...register("logo")} placeholder="Lien de votre logo ..."/>
                     <div>
