@@ -176,6 +176,61 @@ input:nth-child(3) {
     cursor: pointer;
 }
 
+.settings {
+    background-color: white;
+    position: absolute;
+    width: 40%;
+    right: 0;
+    top: 0;
+    height: 100dvh;
+    z-index: 999;
+    padding: 30px;
+    animation: .3s slider forwards;
+}
+
+@keyframes slider {
+    0% {
+        right: -100%;
+    }
+    100% {
+        right: 0;
+    }
+}
+
+.settings > h2 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.settings > form > input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.settings > form > div > input {
+    margin-left: 0;
+}
+
+.settings > form > div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    column-gap: 10px;
+}
+
+.settings > form > div > p {
+    color: white;
+    background-color: rgb(214, 103, 103);
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    margin: 0;
+}
+
 .popup {
     position: absolute;
     left: 50%;
@@ -232,12 +287,6 @@ input:nth-child(3) {
     opacity: .9;
 }
 
-.colorPicker{
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-}
 
 .popup > form > input {
     margin-top: 10px;
