@@ -10,7 +10,7 @@ import { IoQrCodeOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
 import html2canvas from 'html2canvas';
 import { FaLink } from "react-icons/fa6";
-import { CiSettings } from "react-icons/ci";
+import { IoMdSettings } from "react-icons/io";
 import Alert from '@mui/material/Alert';
 import { IoClose } from "react-icons/io5";
 
@@ -53,7 +53,7 @@ const Etablissement = () => {
                 window.location.href = "/notFound"
             })
         })()
-    }, [isAddSection, addLine, change, edit, editSection])
+    }, [isAddSection, addLine, change, edit, editSection, settings])
 
     const addSection = (data) => {
 
@@ -284,7 +284,7 @@ const Etablissement = () => {
                     <p style={{backgroundColor: data ? data.theme : color}} onClick={() => setAddSection(true)}>Ajouter une section</p>
                     <IoQrCodeOutline className={styles.icon} onClick={() => setDisplayQRCode(true)} />
                     <FaLink className={styles.icon} onClick={() => window.open(`${import.meta.env.VITE_APP_URL}/menu/${id}`, '_blank')} />
-                    <CiSettings className={styles.icon} onClick={() => setSettings(true)} />
+                    <IoMdSettings className={styles.icon} onClick={() => setSettings(true)} />
                 </div>
             </div>
             : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}

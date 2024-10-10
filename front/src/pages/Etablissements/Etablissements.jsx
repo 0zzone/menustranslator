@@ -14,6 +14,8 @@ import { RiCopperCoinFill } from "react-icons/ri";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Footer from "../../components/Footer/Footer"
+import { plans } from "../../data"
+
 
 
 const Etablissements = () => {
@@ -28,6 +30,7 @@ const Etablissements = () => {
     const [subPopup, setSubPopup] = useState(false)
     const [confirm1, setConfirm1] = useState(0)
     const [confirm2, setConfirm2] = useState(0)
+    const [selectedPlan, setSelectedPlan] = useState(import.meta.env.VITE_SILVER_PRICE)
 
     const {
         register,
@@ -113,12 +116,6 @@ const Etablissements = () => {
 
         
     }
-
-    const [selectedPlan, setSelectedPlan] = useState(import.meta.env.VITE_SILVER_PRICE)
-    const plans = [
-        {name: "Silver", price: "49", description: "Si vous avez un seul établissement", price_id: import.meta.env.VITE_SILVER_PRICE},
-        {name: "Gold", price: "69", description: "Si vous avez plusieurs établissements", price_id: import.meta.env.VITE_GOLD_PRICE}
-    ]
 
     const getPlanByPriceId = (priceId) => {
         for(let i in plans){
@@ -319,8 +316,8 @@ const Etablissements = () => {
                 : <>
                 
                     <div className={styles.shadow}></div>
-                        <div className={styles.must}>
-                        <h2>Souscrivez dès à présent, promis ça dure 3 minutes</h2>
+                    <div className={styles.must}>
+                        <h2>Souscrivez dès à présent !</h2>
                         <div>
                             {plans.map((plan, index) => (
                                 <div className={clsx(styles.plan, plan.price_id === selectedPlan && styles.selected)} onClick={() => setSelectedPlan(plan.price_id)} key={index}>
