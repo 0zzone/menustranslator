@@ -11,6 +11,16 @@
     margin: 0;
     margin-left: 100px;
     margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.home {
+    width: 40px;
+    height: auto;
+    cursor: pointer;
 }
 
 .form{
@@ -61,7 +71,18 @@
 }
 
 .data > div > div > h2 {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
     margin: 0;
+}
+
+.data > div > div > h2 > span {
+    color: white;
+    background-color: orange;
+    font-size: 10px;
+    padding: 3px;
+    border-radius: 10px;
 }
 
 .data > div > div > p {

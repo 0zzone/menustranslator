@@ -4,7 +4,7 @@ import { RiTranslate } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { IoIosTimer } from "react-icons/io";
 import { useEffect, useState } from "react";
-import {langs} from "../../data"
+import {langs, plans} from "../../data"
 import {getCountryFromCode} from "../../functions/translator"
 import axios from "axios"
 import Footer from "../../components/Footer/Footer";
@@ -122,18 +122,15 @@ const Welcome = () => {
             <div className={styles.pricingContainer}>
                 <h1>Deux offres, rien que ça</h1>
                 <div className={styles.pricing}>
-                    <div>
-                        <h1>Silver</h1>
-                        <h2>49€ <b>/mois</b></h2>
-                        <p>Vous avez <b>un seul</b> établissement ? Cette offre est faite pour vous !</p>
-                        <a href="/register">J{"'"}y vais</a>
-                    </div>
-                    <div>
-                        <h1>Gold</h1>
-                        <h2>59€ <b>/mois</b></h2>
-                        <p>Vous avez <b>plusieurs</b> établissements ? Cette offre est faite pour vous !</p>
-                        <a href="/register">J{"'"}y vais</a>
-                    </div>
+                    {plans.map((plan, index) => (
+                        <div key={index}>
+                            <h1>{plan.name}</h1>
+                            <h2>{plan.price}€ <b>/mois</b></h2>
+                            <p>{plan.description}</p>
+                            <a href="/register">J{"'"}y vais</a>
+                        </div>
+                    ))}
+                    
                 </div>
 
                 <Footer color={"dark"} />

@@ -183,6 +183,7 @@ input:nth-child(3) {
     right: 0;
     top: 0;
     height: 100dvh;
+    box-sizing: border-box;
     z-index: 999;
     padding: 30px;
     animation: .3s slider forwards;
@@ -198,7 +199,6 @@ input:nth-child(3) {
 }
 
 .settings > h2 {
-    text-align: center;
     margin: 0;
     margin-bottom: 30px;
 }

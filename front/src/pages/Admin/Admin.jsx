@@ -5,6 +5,7 @@ import {toast} from "react-toastify"
 import { useEffect, useState } from "react"
 import Skeleton from '@mui/material/Skeleton';
 import clsx from "clsx"
+import { MdHome } from "react-icons/md";
 
 const Admin = () => {
 
@@ -46,6 +47,7 @@ const Admin = () => {
                 Authorization: `Bearer ${session.token}`
             }
         }).then(res => {
+            console.log(res.data.data)
             setData(res.data.data)
             setLoading(false)
         }).catch(e => {
@@ -75,7 +77,7 @@ const Admin = () => {
 
     return(
         <div className={styles.container}>
-            <h1>Panel admin 🚀</h1>
+            <h1><MdHome className={styles.home} onClick={() => window.location.href = "/etablissements"} /> Panel admin 🚀</h1>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <input type="text" placeholder="Nom ou Prénom de l'utilisateur" {...register("name")} />
                 <input type="submit" value="Rechercher" />
@@ -89,7 +91,7 @@ const Admin = () => {
                     {data && data.length > 0 && data.map((user, index) => (
                         <div key={index} className={clsx(user.role === "ADMIN" && styles.adminLine)}>
                             <div>
-                                <h2>{user.firstName} {user.lastName}</h2>
+                                <h2>{user.firstName} {user.lastName} {!user.subcription && user.role === "USER" && <span>Aucun abonnement</span>}</h2>
                                 <p>{user.email}</p>
                                 <p className={styles.join}><span>Restaurants:</span> {user.etablissements.length > 0 ? user.etablissements.map(etablissement => etablissement.name).join(", ") : 'Aucun restaurant'}</p>
                             </div>
