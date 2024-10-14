@@ -22,14 +22,73 @@ const users = async () => {
     ]
 
     for(let i=0; i<users_to_add.length; i++) {
-        await prisma.user.create({
-            data: users_to_add[i]
+        try {
+            await prisma.user.create({
+                data: users_to_add[i]
+            })
+        } catch (e) {
+            console.log("User cannot be created")
+        }
+}
+
+const langs = async () => {
+    const langs_to_add = [
+        {
+            name: "Français",
+            code: "FR"
+        },
+        {
+            name: "Anglais",
+            code: "GB"
+        },
+        {
+            name: "Espagnol",
+            code: "ES"
+        },
+        {
+            name: "Chinois",
+            code: "CN"
+        },
+        {
+            name: "Coréen",
+            code: "KR"
+        },
+        {
+            name: "Japonais",
+            code: "JP"
+        },
+        {
+            name: "Allemand",
+            code: "DE"
+        },
+        {
+            name: "Portugais",
+            code: "PT"
+        },
+        {
+            name: "Italien",
+            code: "IT"
+        },
+        {
+            name: "Ukrainien",
+            code: "UA"
+        },
+        {
+            name: "Russe",
+            code: "RU"
+        }
+    ]
+
+    for(let i=0; i<langs_to_add.length; i++) {
+        await prisma.lang.create({
+            data: langs_to_add[i]
         })
     }
 }
 
 const main = async () => {
     await users()
+    await langs()
 }
 
 main()
