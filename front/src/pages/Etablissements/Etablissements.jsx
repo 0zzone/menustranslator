@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Footer from "../../components/Footer/Footer"
 import { plans } from "../../data"
+import { GrInstallOption } from "react-icons/gr";
 
 
 
@@ -38,7 +39,39 @@ const Etablissements = () => {
         reset
     } = useForm()
 
+    const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+
+    const handleInstallClick = async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          setDeferredPrompt(null); // Reset the prompt after user action
+        }
+      };
+
+      useEffect(() => {
+        // Capture the event when it is triggered
+        const handler = (event) => {
+          event.preventDefault();
+          setDeferredPrompt(event); // Save the event
+        };
+    
+        window.addEventListener('beforeinstallprompt', handler);
+    
+        // Cleanup the event listener on component unmount
+        return () => {
+          window.removeEventListener('beforeinstallprompt', handler);
+        };
+      }, []);
+
     useEffect(() => {
+
         const session = JSON.parse(localStorage.getItem("session"))
         axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
             headers: {
@@ -218,6 +251,7 @@ const Etablissements = () => {
 
     return(
         <>
+
             <div className={styles.container}>
                 {subPopup && <>
                     <div className={styles.shadow} onClick={() => setSubPopup(false)}></div>
@@ -270,6 +304,7 @@ const Etablissements = () => {
                             </IconButton>
                         </Tooltip>}
                         {user && user.role === "ADMIN" && user.role && <a href="/admin/admin" className={styles.admin}>{user.role}</a>}
+                        {deferredPrompt && <GrInstallOption className={styles.install} onClick={handleInstallClick} />}
                     </div>
                 </div>
                 : <Skeleton variant="rectangular" width={210} height={30} style={{borderRadius: "5px"}} />}

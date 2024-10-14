@@ -20,6 +20,10 @@ import Demo from './pages/Demo/Demo';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import ResetPassword from './pages/ForgotPassword/ResetPassword/ResetPassword';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'; // Import service worker registration
+
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -80,3 +84,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <RouterProvider router={router} />
   </React.StrictMode>,
 )
+
+serviceWorkerRegistration.register();

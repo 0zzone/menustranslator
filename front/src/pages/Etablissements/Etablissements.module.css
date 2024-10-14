@@ -36,6 +36,12 @@
     cursor: pointer;
 }
 
+.install {
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
 .top > div > p:hover {
     opacity: .9;
 }
